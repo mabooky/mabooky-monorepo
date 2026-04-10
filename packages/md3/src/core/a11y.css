@@ -1,0 +1,14 @@
+@layer md3-core {
+    .md3-touch-target {
+        position: relative;
+    }
+
+    .md3-touch-target::after {
+        position: absolute;
+        inset: 50%;
+        width: 48px;
+        height: 48px;
+        translate: -50% -50%;
+        content: "";
+    }
+}

@@ -1,4 +1,4 @@
 @import "./system-tokens.css";
 
+@import "./core/a11y.css";
 @import "./core/state-layer.css";
-@import "./core/touch-target.css";
