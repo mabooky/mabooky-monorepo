@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./md3.css": "./src/md3.css"
+  },
+  "sideEffects": [
+    "./src/md3.css"
+  ],
+  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
