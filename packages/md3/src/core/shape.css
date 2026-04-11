@@ -1,0 +1,14 @@
+@layer md3-core {
+    :root {
+        --md-sys-shape-corner-none: calc(0 / 16 * 1rem);
+        --md-sys-shape-corner-extra-small: calc(4 / 16 * 1rem);
+        --md-sys-shape-corner-small: calc(8 / 16 * 1rem);
+        --md-sys-shape-corner-medium: calc(12 / 16 * 1rem);
+        --md-sys-shape-corner-large: calc(16 / 16 * 1rem);
+        --md-sys-shape-corner-large-increased: calc(20 / 16 * 1rem);
+        --md-sys-shape-corner-extra-large: calc(28 / 16 * 1rem);
+        --md-sys-shape-corner-extra-large-increased: calc(32 / 16 * 1rem);
+        --md-sys-shape-corner-extra-extra-large: calc(48 / 16 * 1rem);
+        /* md.sys.shape.corner.full의 경우 transition을 위해 컴포넌트에서 직접 높이의 절반으로 지정 */
+    }
+}

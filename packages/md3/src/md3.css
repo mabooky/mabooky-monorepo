@@ -3,4 +3,5 @@
 @import "./core/a11y.css";
 @import "./core/elevation.css";
 @import "./core/motion.css";
+@import "./core/shape.css";
 @import "./core/state-layer.css";
