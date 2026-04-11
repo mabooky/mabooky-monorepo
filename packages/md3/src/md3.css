@@ -1,4 +1,5 @@
 @import "./system-tokens.css";
 
 @import "./core/a11y.css";
+@import "./core/elevation.css";
 @import "./core/state-layer.css";
