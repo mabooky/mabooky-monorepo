@@ -4,11 +4,11 @@
         width: 100%;
         height: 100%;
         inset: 0;
-
-        
     }
     
     *:has(> .md3-state-layer) {
+        outline: none;
+
         &:hover > .md3-state-layer {
             /* 그냥 opacity를 사용하면 focus ring까지 흐려지는 문제 발생 */
             background-color: color-mix(in oklab, currentcolor 8%, transparent);
