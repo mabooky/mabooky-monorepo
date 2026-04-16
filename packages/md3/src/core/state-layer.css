@@ -1,4 +1,4 @@
-@layer components {
+@layer md3-core {
     .md3-state-layer {
         position: absolute;
         width: 100%;
