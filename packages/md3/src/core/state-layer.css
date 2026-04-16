@@ -18,7 +18,7 @@
         &:focus-visible > .md3-state-layer {
             background-color: color-mix(in oklab, currentcolor 10%, transparent);
             outline: var(--md-sys-color-secondary) solid 3px;
-            outline-offset: 2px;
+            outline-offset: 3px;
         }
 
         &:active > .md3-state-layer:not([data-ripple="true"]) {
