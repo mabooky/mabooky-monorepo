@@ -5,3 +5,7 @@
 @import "./core/motion.css";
 @import "./core/shape.css";
 @import "./core/state-layer.css";
+@import "./core/typography.css";
+
+@import "./components/button.css";
+@import "./components/plain-tooltip.css";
