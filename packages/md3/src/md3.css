@@ -1,11 +1,11 @@
-@import "./system-tokens.css";
+@import "./tokens/color.css";
+@import "./tokens/motion.css";
+@import "./tokens/shape.css";
+@import "./tokens/typography.css";
 
 @import "./core/a11y.css";
 @import "./core/elevation.css";
-@import "./core/motion.css";
-@import "./core/shape.css";
 @import "./core/state-layer.css";
-@import "./core/typography.css";
 
 @import "./components/button.css";
 @import "./components/plain-tooltip.css";

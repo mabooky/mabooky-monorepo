@@ -1,4 +1,4 @@
-@layer md3-core {
+@layer md3-tokens {
     :root {
         --md-sys-typescale-display-large-font: 'Roboto', sans-serif;
         --md-sys-typescale-display-large-weight: 400;
