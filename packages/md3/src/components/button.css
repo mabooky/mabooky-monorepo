@@ -38,9 +38,7 @@
                 border-radius var(--md-sys-motion-spring-fast-spatial);
         }
 
-        /* 아이콘은 항상 라벨보다 앞에 배치 */
         & > .md3-button__icon {
-            order: -1;
             flex-shrink: 0;
             display: flex;
         }
