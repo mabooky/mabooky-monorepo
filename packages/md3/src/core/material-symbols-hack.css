@@ -1,0 +1,9 @@
+/* 이 스타일들은 사용자가 Google Fonts에서 제공하는 Material Symbols 스타일시트를 적용했을 때,
+font-size: 24px 스타일이 Unlayered로 적용되어 라이브러리의 값들이 덮어씌워지는 문제를 해결하기 위함. */
+
+/* Google Fonts 스타일 명시도를 이기기 위해 .md3-icon 선택자까지 활용 */
+.md3-icon.material-symbols-outlined,
+.md3-icon.material-symbols-rounded,
+.md3-icon.material-symbols-sharp {
+    font-size: revert-layer;
+}

@@ -1,0 +1,5 @@
+@layer md3-components {
+    .md3-icon {
+        user-select: none;
+    }
+}
