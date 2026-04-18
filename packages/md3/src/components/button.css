@@ -37,7 +37,7 @@
         &[data-size="xs"] {
             height: 2rem; /* 32dp */
             padding-inline: 0.75rem; /* 12dp */
-            gap: 0.5rem; /* 8dp */
+            gap: calc(4 / 16 * 1rem);
             font-family: var(--md-sys-typescale-label-large-font);
             font-size: var(--md-sys-typescale-label-large-size);
             font-weight: var(--md-sys-typescale-label-large-weight);

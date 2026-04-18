@@ -106,7 +106,7 @@ Color: Elevated, Filled(기본값), Tonal, Outlined, Text
     - 라벨 타이포그래피: md.sys.typescale.label-large
     - 아이콘 크기: 20dp
     - 컨테이너 수평축 안쪽 여백: 12dp
-    - 아이콘 있을 시 아이콘과 라벨 간격: 8dp
+    - 아이콘 있을 시 아이콘과 라벨 간격: 4dp
     - Pressed 상태 모서리 둥글기: md.sys.shape.corner.small
     - 모서리 둥글기 변화 애니메이션: md.sys.motion.spring.fast.spatial
     - Shape: Round
