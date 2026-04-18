@@ -2,7 +2,7 @@
 
 md3 라이브러리의 인터랙티브 컴포넌트 설계 원칙.
 
----
+
 
 ## 1. 기본 구조
 
@@ -18,7 +18,7 @@ md3 라이브러리의 인터랙티브 컴포넌트 설계 원칙.
 
 각 레이어는 역할이 분리되어 있어 독립적으로 제어 가능하다.
 
----
+
 
 ## 2. 레이어별 역할과 CSS 규칙
 
@@ -61,7 +61,7 @@ md3 라이브러리의 인터랙티브 컴포넌트 설계 원칙.
 - 일반 흐름(normal flow) 요소
 - `z-index` 없이도 Container/StateLayer 위에 표시됨 (stacking context 순서)
 
----
+
 
 ## 3. 상태 스타일링 원칙
 
@@ -114,77 +114,33 @@ StateLayer는 직계 부모(최상위 요소)의 상태를 읽는다.
 
 > `currentcolor` 기반 오버레이는 텍스트 색상(= 대부분 MD3 color role의 "on-" 색상)과 일치하는 경우에만 정확하다. 오버레이 색상이 텍스트 색상과 달라야 하는 케이스에서는 별도 처리가 필요하다.
 
----
 
-## 4. border-radius 공유 패턴
 
-터치 영역과 비주얼 컨테이너의 일치 여부에 따라 패턴이 달라진다.
+## 4. border-radius 공유
 
-### 패턴 A: 터치 영역 = 비주얼 컨테이너 (Button, FAB 등)
-
-최상위 요소 자체가 Container 역할을 겸한다. Container를 별도로 분리하지 않는다.
-
-```
-<button>                ← border-radius 값 정의 + background-color
-  <StateLayer />        ← border-radius: inherit
-  <Content />
-</button>
-```
+Container와 StateLayer가 모두 존재하고 같은 `border-radius`를 가져야 하는 경우, `--_component-radius` 커스텀 프로퍼티를 최상위 요소에서 정의하고 두 레이어가 이를 소비한다.
 
 ```css
-.md3-button__state-layer {
-    border-radius: inherit;
+/* shape 정의: 최상위 요소에서 커스텀 프로퍼티로 */
+.md3-button[data-size="sm"][data-shape="round"] {
+    --_button-radius: calc(20 / 16 * 1rem);
+}
+.md3-button[data-size="sm"]:active:not([aria-disabled="true"]) {
+    --_button-radius: var(--md-sys-shape-corner-small);
+}
+
+/* shape 소비: Container와 StateLayer가 멀티 셀렉터로 동일한 값을 참조 */
+.md3-button > .md3-button__container,
+.md3-button > .md3-button__state-layer {
+    border-radius: var(--_button-radius);
 }
 ```
 
-### 패턴 B: 터치 영역 ≠ 비주얼 컨테이너 (Nav Bar Item 등)
+> `--_` prefix는 라이브러리 내부 전용 변수임을 관례적으로 표시한다.
 
-최상위 요소는 큰 터치 영역이고, 내부 Container/StateLayer는 더 작은 pill 모양이다.
-`border-radius`를 멀티 셀렉터로 Container와 StateLayer에 직접 명시한다.
 
-```
-<button class="md3-nav-item">       ← 큰 네모, border-radius 없음
-  <Container />                     ← pill 모양
-  <StateLayer />                    ← pill 모양
-  <icon />
-</button>
-<label />                           ← 버튼 밖 (레이아웃 래퍼에 위치)
-```
 
-```css
-.md3-nav-item > .md3-nav-item__container,
-.md3-nav-item > .md3-state-layer {
-    border-radius: var(--md-sys-shape-corner-full);
-}
-```
-
-멀티 셀렉터 방식의 장점: "이 둘이 같은 shape를 공유한다"는 의도가 코드 구조로 직접 드러난다.
-
-### 패턴 C: StateLayer 단독 (Checkbox, Radio 등)
-
-Container 없이 StateLayer만 존재하는 경우. StateLayer에 직접 `border-radius`를 적용한다.
-
-```css
-.md3-checkbox > .md3-state-layer {
-    border-radius: var(--md-sys-shape-corner-full);
-}
-```
-
----
-
-## 5. 컴포넌트별 패턴 매핑
-
-| 컴포넌트 | 패턴 | 이유 |
-|---|---|---|
-| Button | A | 터치 영역 = 비주얼 컨테이너 |
-| FAB | A | 터치 영역 = 비주얼 컨테이너 |
-| Nav Bar Item | B | 터치 영역(전체) ≠ Active indicator(pill) |
-| Checkbox | C | Container 없음, StateLayer만 단독 |
-| Chip | A | 터치 영역 = 비주얼 컨테이너 |
-
----
-
-## 6. 최소 터치 타겟
+## 5. 최소 터치 타겟
 
 48×48dp 최소 터치 타겟은 `::after` 가상 요소로 구현한다.
 
@@ -205,12 +161,12 @@ Container 없이 StateLayer만 존재하는 경우. StateLayer에 직접 `border
 
 최상위 요소에 `overflow` 없으므로 `::after`가 border-radius에 잘리지 않는다.
 
----
 
-## 7. 설계 원칙 요약
+
+## 6. 설계 원칙 요약
 
 1. **레이어 분리**: Container(배경) / StateLayer(오버레이) / Content(콘텐츠)는 독립적으로 동작
 2. **overflow는 레이어별로**: StateLayer는 `overflow: clip`, 최상위 요소는 overflow 없음
 3. **상태는 속성으로**: `aria-*`(의미 있는 상태), `data-*`(비주얼 변형)
-4. **border-radius 공유**: 터치=컨테이너면 `inherit`, 아니면 멀티 셀렉터
+4. **border-radius 공유**: Container와 StateLayer가 모두 존재하고 같은 `border-radius`를 가져야 하는 경우, `--_component-radius` 커스텀 프로퍼티를 사용한다
 5. **CSS @layer**: `@layer md3-core`, `@layer md3-components`로 소비자 스타일보다 항상 낮은 우선순위 유지
