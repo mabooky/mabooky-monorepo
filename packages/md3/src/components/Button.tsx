@@ -2,6 +2,7 @@ import { Slot, Slottable } from "@radix-ui/react-slot";
 import clsx from "clsx";
 import { ComponentProps } from "react";
 import { StateLayer } from "../core/StateLayer";
+import { Icon, IconProps } from "./Icon";
 
 export type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
 export type ButtonShape = "round" | "square";
@@ -41,16 +42,15 @@ export function Button({
             aria-pressed={isToggle ? selected : undefined}
             {...props}
         >
+            <span className="md3-button__container" aria-hidden="true" />
             <Slottable>{children}</Slottable>
             <StateLayer className="md3-button__state-layer" ripple={ripple} />
         </Comp>
     );
 }
 
-Button.Icon = function ButtonIcon({ className, children, ...props }: ComponentProps<"span">) {
+Button.Icon = function ButtonIcon({ className, ...props }: IconProps) {
     return (
-        <span className={clsx("md3-button__icon", className)} {...props}>
-            {children}
-        </span>
+        <Icon className={clsx("md3-button__icon", className)} {...props} />
     );
 };

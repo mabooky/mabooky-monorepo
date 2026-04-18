@@ -1,231 +1,263 @@
 @layer md3-components {
     .md3-button {
-        position: relative;
+        position: relative; 
         display: inline-flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         white-space: nowrap;
         text-decoration: none;
-        /* transparent border를 기본으로 설정하여 outlined와 non-outlined 간 레이아웃 시프트 방지 */
-        border-style: solid;
-        border-color: transparent;
+        isolation: isolate;
         transition:
-            border-radius var(--md-sys-motion-spring-fast-spatial),
-            background-color var(--md-sys-motion-spring-fast-effects),
-            color var(--md-sys-motion-spring-fast-effects),
-            box-shadow var(--md-sys-motion-spring-fast-effects);
+            color var(--md-sys-motion-spring-fast-effects);
 
         &[aria-disabled="true"] {
             pointer-events: none;
         }
 
+        & > .md3-button__container,
         & > .md3-button__state-layer {
-            border-radius: inherit;
+            border-radius: var(--_button-radius);
+        }
+
+        & > .md3-button__container {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            border-style: solid;
+            border-color: transparent;
+            transition:
+                border-radius var(--md-sys-motion-spring-fast-spatial),
+                background-color var(--md-sys-motion-spring-fast-effects),
+                border-color var(--md-sys-motion-spring-fast-effects),
+                box-shadow var(--md-sys-motion-spring-fast-effects);
+        }
+
+        & > .md3-button__state-layer {
+            transition:
+                border-radius var(--md-sys-motion-spring-fast-spatial);
         }
 
         /* 아이콘은 항상 라벨보다 앞에 배치 */
         & > .md3-button__icon {
             order: -1;
             flex-shrink: 0;
-            width: var(--md3-button-icon-size);
-            height: var(--md3-button-icon-size);
+            display: flex;
         }
 
         /* ===================== SIZE ===================== */
 
         &[data-size="xs"] {
-            height: 2rem; /* 32dp */
-            padding-inline: 0.75rem; /* 12dp */
+            height: calc(32 / 16 * 1rem);
+            padding-inline: calc(12 / 16 * 1rem);
             gap: calc(4 / 16 * 1rem);
             font-family: var(--md-sys-typescale-label-large-font);
             font-size: var(--md-sys-typescale-label-large-size);
             font-weight: var(--md-sys-typescale-label-large-weight);
             line-height: var(--md-sys-typescale-label-large-line-height);
             letter-spacing: var(--md-sys-typescale-label-large-tracking);
-            --md3-button-icon-size: calc(20 / 16 * 1rem);
+            & > .md3-button__icon { font-size: calc(20 / 16 * 1rem); }
 
             &[data-shape="round"] {
-                /* full = 16px = 절반 높이 32dp/2 = corner-large */
-                border-radius: var(--md-sys-shape-corner-large);
-                border-radius: var(--md-sys-shape-corner-large);
-                &[aria-pressed="true"] { border-radius: var(--md-sys-shape-corner-medium); }
+                --_button-radius: calc(16 / 16 * 1rem);
+                &[aria-pressed="true"] { --_button-radius: var(--md-sys-shape-corner-medium); }
             }
             &[data-shape="square"] {
-                border-radius: var(--md-sys-shape-corner-medium);
-                &[aria-pressed="true"] { border-radius: var(--md-sys-shape-corner-large); }
+                --_button-radius: var(--md-sys-shape-corner-medium);
+                &[aria-pressed="true"] { --_button-radius: calc(16 / 16 * 1rem); }
             }
             /* pressed 상태 border-radius 축소 (MD3 pressed shape).
                aria-disabled는 네이티브 disabled와 달리 :active를 막지 않으므로 명시적으로 제외.
                pointer-events: none으로 마우스 클릭은 막히지만, 키보드(스페이스바)로는 :active가 발동할 수 있음. */
-            &:active:not([aria-disabled="true"]) { border-radius: var(--md-sys-shape-corner-small); }
-            &[data-color="outlined"] { border-width: 1px; }
+            &:active:not([aria-disabled="true"]) { --_button-radius: var(--md-sys-shape-corner-small); }
+            &[data-color="outlined"] > .md3-button__container { border-width: 1px; }
         }
 
         &[data-size="sm"] {
-            height: 2.5rem; /* 40dp */
-            padding-inline: 1rem; /* 16dp */
-            gap: 0.5rem; /* 8dp */
+            height: calc(40 / 16 * 1rem);
+            padding-inline: calc(16 / 16 * 1rem);
+            gap: calc(8 / 16 * 1rem);
             font-family: var(--md-sys-typescale-label-large-font);
             font-size: var(--md-sys-typescale-label-large-size);
             font-weight: var(--md-sys-typescale-label-large-weight);
             line-height: var(--md-sys-typescale-label-large-line-height);
             letter-spacing: var(--md-sys-typescale-label-large-tracking);
-            --md3-button-icon-size: calc(20 / 16 * 1rem);
+            & > .md3-button__icon { font-size: calc(20 / 16 * 1rem); }
 
             &[data-shape="round"] {
-                /* full = 20px = 절반 높이 40dp/2 = corner-large-increased */
-                border-radius: var(--md-sys-shape-corner-large-increased);
-                &[aria-pressed="true"] { border-radius: var(--md-sys-shape-corner-medium); }
+                --_button-radius: calc(20 / 16 * 1rem);
+                &[aria-pressed="true"] { --_button-radius: var(--md-sys-shape-corner-medium); }
             }
             &[data-shape="square"] {
-                border-radius: var(--md-sys-shape-corner-medium);
-                &[aria-pressed="true"] { border-radius: var(--md-sys-shape-corner-large-increased); }
+                --_button-radius: var(--md-sys-shape-corner-medium);
+                &[aria-pressed="true"] { --_button-radius: calc(20 / 16 * 1rem); }
             }
-            &:active:not([aria-disabled="true"]) { border-radius: var(--md-sys-shape-corner-small); }
-            &[data-color="outlined"] { border-width: 1px; }
+            &:active:not([aria-disabled="true"]) { --_button-radius: var(--md-sys-shape-corner-small); }
+            &[data-color="outlined"] > .md3-button__container { border-width: 1px; }
         }
 
         &[data-size="md"] {
-            height: 3.5rem; /* 56dp */
-            padding-inline: 1.5rem; /* 24dp */
-            gap: 0.5rem; /* 8dp */
+            height: calc(56 / 16 * 1rem);
+            padding-inline: calc(24 / 16 * 1rem);
+            gap: calc(8 / 16 * 1rem);
             font-family: var(--md-sys-typescale-title-medium-font);
             font-size: var(--md-sys-typescale-title-medium-size);
             font-weight: var(--md-sys-typescale-title-medium-weight);
             line-height: var(--md-sys-typescale-title-medium-line-height);
             letter-spacing: var(--md-sys-typescale-title-medium-tracking);
-            --md3-button-icon-size: calc(24 / 16 * 1rem);
+            & > .md3-button__icon { font-size: calc(24 / 16 * 1rem); }
 
             &[data-shape="round"] {
-                /* full = 28px = 절반 높이 56dp/2 = corner-extra-large */
-                border-radius: var(--md-sys-shape-corner-extra-large);
-                &[aria-pressed="true"] { border-radius: var(--md-sys-shape-corner-large); }
+                --_button-radius: calc(28 / 16 * 1rem);
+                &[aria-pressed="true"] { --_button-radius: var(--md-sys-shape-corner-large); }
             }
             &[data-shape="square"] {
-                border-radius: var(--md-sys-shape-corner-large);
-                &[aria-pressed="true"] { border-radius: var(--md-sys-shape-corner-extra-large); }
+                --_button-radius: var(--md-sys-shape-corner-large);
+                &[aria-pressed="true"] { --_button-radius: calc(28 / 16 * 1rem); }
             }
-            &:active:not([aria-disabled="true"]) { border-radius: var(--md-sys-shape-corner-medium); }
-            &[data-color="outlined"] { border-width: 1px; }
+            &:active:not([aria-disabled="true"]) { --_button-radius: var(--md-sys-shape-corner-medium); }
+            &[data-color="outlined"] > .md3-button__container { border-width: 1px; }
         }
 
         &[data-size="lg"] {
-            height: 6rem; /* 96dp */
-            padding-inline: 3rem; /* 48dp */
-            gap: 0.75rem; /* 12dp */
+            height: calc(96 / 16 * 1rem);
+            padding-inline: calc(48 / 16 * 1rem);
+            gap: calc(12 / 16 * 1rem);
             font-family: var(--md-sys-typescale-headline-small-font);
             font-size: var(--md-sys-typescale-headline-small-size);
             font-weight: var(--md-sys-typescale-headline-small-weight);
             line-height: var(--md-sys-typescale-headline-small-line-height);
             letter-spacing: var(--md-sys-typescale-headline-small-tracking);
-            --md3-button-icon-size: 2rem; /* 32dp */
+            & > .md3-button__icon { font-size: calc(32 / 16 * 1rem); }
 
             &[data-shape="round"] {
-                /* full = 48px = 절반 높이 96dp/2 = corner-extra-extra-large */
-                border-radius: var(--md-sys-shape-corner-extra-extra-large);
-                &[aria-pressed="true"] { border-radius: var(--md-sys-shape-corner-extra-large); }
+                --_button-radius: calc(48 / 16 * 1rem);
+                &[aria-pressed="true"] { --_button-radius: var(--md-sys-shape-corner-extra-large); }
             }
             &[data-shape="square"] {
-                border-radius: var(--md-sys-shape-corner-extra-large);
-                &[aria-pressed="true"] { border-radius: var(--md-sys-shape-corner-extra-extra-large); }
+                --_button-radius: var(--md-sys-shape-corner-extra-large);
+                &[aria-pressed="true"] { --_button-radius: calc(48 / 16 * 1rem); }
             }
-            &:active:not([aria-disabled="true"]) { border-radius: var(--md-sys-shape-corner-large); }
-            &[data-color="outlined"] { border-width: 2px; }
+            &:active:not([aria-disabled="true"]) { --_button-radius: var(--md-sys-shape-corner-large); }
+            &[data-color="outlined"] > .md3-button__container { border-width: 2px; }
         }
 
         &[data-size="xl"] {
-            height: 8.5rem; /* 136dp */
-            padding-inline: 4rem; /* 64dp */
-            gap: 1rem; /* 16dp */
+            height: calc(136 / 16 * 1rem);
+            padding-inline: calc(64 / 16 * 1rem);
+            gap: calc(16 / 16 * 1rem);
             font-family: var(--md-sys-typescale-headline-large-font);
             font-size: var(--md-sys-typescale-headline-large-size);
             font-weight: var(--md-sys-typescale-headline-large-weight);
             line-height: var(--md-sys-typescale-headline-large-line-height);
             letter-spacing: var(--md-sys-typescale-headline-large-tracking);
-            --md3-button-icon-size: 2.5rem; /* 40dp */
+            & > .md3-button__icon { font-size: calc(40 / 16 * 1rem); }
 
             &[data-shape="round"] {
-                /* full = 68px = 절반 높이 136dp/2, 해당하는 토큰 없음 */
-                border-radius: calc(68 / 16 * 1rem);
-                &[aria-pressed="true"] { border-radius: var(--md-sys-shape-corner-extra-large); }
+                --_button-radius: calc(68 / 16 * 1rem);
+                &[aria-pressed="true"] { --_button-radius: var(--md-sys-shape-corner-extra-large); }
             }
             &[data-shape="square"] {
-                border-radius: var(--md-sys-shape-corner-extra-large);
-                &[aria-pressed="true"] { border-radius: calc(68 / 16 * 1rem); }
+                --_button-radius: var(--md-sys-shape-corner-extra-large);
+                &[aria-pressed="true"] { --_button-radius: calc(68 / 16 * 1rem); }
             }
-            &:active:not([aria-disabled="true"]) { border-radius: var(--md-sys-shape-corner-large); }
-            &[data-color="outlined"] { border-width: 3px; }
+            &:active:not([aria-disabled="true"]) { --_button-radius: var(--md-sys-shape-corner-large); }
+            &[data-color="outlined"] > .md3-button__container { border-width: 3px; }
         }
 
         /* ===================== COLOR ===================== */
 
         /* elevated - default & toggle unselected */
         &[data-color="elevated"] {
-            background-color: var(--md-sys-color-surface-container-low);
-            box-shadow: var(--md3-shadow-elevation-1);
             color: var(--md-sys-color-primary);
 
+            & > .md3-button__container {
+                background-color: var(--md-sys-color-surface-container-low);
+                box-shadow: var(--md3-shadow-elevation-1);
+            }
+
             &[aria-pressed="true"] {
-                background-color: var(--md-sys-color-primary);
                 color: var(--md-sys-color-on-primary);
+                & > .md3-button__container {
+                    background-color: var(--md-sys-color-primary);
+                }
             }
 
             &[aria-disabled="true"] {
-                background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
-                box-shadow: none;
                 color: color-mix(in oklab, var(--md-sys-color-on-surface) 38%, transparent);
+                & > .md3-button__container {
+                    background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
+                    box-shadow: none;
+                }
             }
         }
 
         /* filled - default & toggle selected */
         &[data-color="filled"] {
-            background-color: var(--md-sys-color-primary);
             color: var(--md-sys-color-on-primary);
 
+            & > .md3-button__container {
+                background-color: var(--md-sys-color-primary);
+            }
+
             &[aria-pressed="false"] {
-                background-color: var(--md-sys-color-surface-container);
                 color: var(--md-sys-color-on-surface-variant);
+                & > .md3-button__container {
+                    background-color: var(--md-sys-color-surface-container);
+                }
             }
 
             &[aria-disabled="true"] {
-                background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
                 color: color-mix(in oklab, var(--md-sys-color-on-surface) 38%, transparent);
+                & > .md3-button__container {
+                    background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
+                }
             }
         }
 
         /* tonal - default & toggle unselected */
         &[data-color="tonal"] {
-            background-color: var(--md-sys-color-secondary-container);
             color: var(--md-sys-color-on-secondary-container);
 
+            & > .md3-button__container {
+                background-color: var(--md-sys-color-secondary-container);
+            }
+
             &[aria-pressed="true"] {
-                background-color: var(--md-sys-color-secondary);
                 color: var(--md-sys-color-on-secondary);
+                & > .md3-button__container {
+                    background-color: var(--md-sys-color-secondary);
+                }
             }
 
             &[aria-disabled="true"] {
-                background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
                 color: color-mix(in oklab, var(--md-sys-color-on-surface) 38%, transparent);
+                & > .md3-button__container {
+                    background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
+                }
             }
         }
 
         /* outlined - default & toggle unselected */
         &[data-color="outlined"] {
-            background-color: transparent;
-            border-color: var(--md-sys-color-outline-variant);
             color: var(--md-sys-color-on-surface-variant);
 
+            & > .md3-button__container {
+                border-color: var(--md-sys-color-outline-variant);
+            }
+
             &[aria-pressed="true"] {
-                background-color: var(--md-sys-color-inverse-surface);
-                border-color: transparent;
                 color: var(--md-sys-color-inverse-on-surface);
+                & > .md3-button__container {
+                    background-color: var(--md-sys-color-inverse-surface);
+                    border-color: transparent;
+                }
             }
 
             &[aria-disabled="true"] {
                 color: color-mix(in oklab, var(--md-sys-color-on-surface) 38%, transparent);
-                
-                &[aria-pressed="true"] {
+
+                &[aria-pressed="true"] > .md3-button__container {
                     background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
                 }
             }
@@ -233,12 +265,13 @@
 
         /* text - default only */
         &[data-color="text"] {
-            background-color: transparent;
             color: var(--md-sys-color-primary);
 
             &[aria-disabled="true"] {
-                background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
                 color: color-mix(in oklab, var(--md-sys-color-on-surface) 38%, transparent);
+                & > .md3-button__container {
+                    background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
+                }
             }
         }
     }
