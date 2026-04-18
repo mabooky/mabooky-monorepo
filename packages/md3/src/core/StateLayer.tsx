@@ -86,6 +86,7 @@ export function StateLayer({
     return (
         <span
             ref={mergeRefs(layerRef, ref)}
+            aria-hidden="true"
             className={clsx('md3-state-layer', className)}
             data-ripple={ripple}
             {...props} />
