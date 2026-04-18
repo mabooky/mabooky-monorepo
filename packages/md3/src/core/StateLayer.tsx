@@ -12,7 +12,7 @@ function mergeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
     };
 }
 
-export type StateLayerProps = Omit<ComponentProps<'div'>, 'children'> & {
+export type StateLayerProps = Omit<ComponentProps<'span'>, 'children'> & {
     ripple?: boolean;
 };
 
@@ -22,7 +22,7 @@ export function StateLayer({
     ripple = false,
     ...props
 }: StateLayerProps) {
-    const layerRef = useRef<HTMLDivElement>(null);
+    const layerRef = useRef<HTMLSpanElement>(null);
 
     useEffect(() => {
         if (!ripple) return;
@@ -52,7 +52,7 @@ export function StateLayer({
             const rippleXRelative = e.clientX - layerRect.left;
             const rippleYRelative = e.clientY - layerRect.top;
 
-            const rippleElement = document.createElement("div");
+            const rippleElement = document.createElement("span");
             rippleElement.className = "md3-state-layer__ripple";
             rippleElement.style.width = rippleDiameter0 + "px";
             rippleElement.style.height = rippleDiameter0 + "px";
@@ -60,10 +60,11 @@ export function StateLayer({
             rippleElement.style.top = rippleYRelative - (rippleDiameter0 / 2) + "px";
             layer.appendChild(rippleElement);
 
-            // opacity, duration, easing은 m3.material.io에서 사용하는 값 그대로 적용
+            // duration, easing은 m3.material.io에서 사용하는 값 그대로 적용
+            // opacity의 경우 원래 0.12이지만, 시각적으로 더 잘 보이도록 0.25로 조정
             const rippleAnim = rippleElement.animate(
                 [
-                    { opacity: 0.12, transform: `scale(1)` },
+                    { opacity: 0.25, transform: `scale(1)` },
                     { opacity: 0, transform: `scale(${animScale})` }
                 ],
                 {
@@ -83,7 +84,7 @@ export function StateLayer({
     }, [ripple]);
 
     return (
-        <div
+        <span
             ref={mergeRefs(layerRef, ref)}
             className={clsx('md3-state-layer', className)}
             data-ripple={ripple}

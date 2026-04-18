@@ -1,5 +1,6 @@
 @layer md3-core {
     .md3-state-layer {
+        display: block;
         position: absolute;
         width: 100%;
         height: 100%;
@@ -27,6 +28,7 @@
     }
 
     .md3-state-layer__ripple {
+        display: block;
         position: absolute;
         border-radius: 50%;
         background-color: currentcolor;
