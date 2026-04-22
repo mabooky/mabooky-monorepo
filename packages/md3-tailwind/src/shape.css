@@ -1,0 +1,12 @@
+@theme inline {
+    --radius-*: initial;
+    --radius-none: var(--md-sys-shape-corner-none);
+    --radius-xs: var(--md-sys-shape-corner-extra-small);
+    --radius-sm: var(--md-sys-shape-corner-small);
+    --radius-md: var(--md-sys-shape-corner-medium);
+    --radius-lg: var(--md-sys-shape-corner-large);
+    --radius-lgi: var(--md-sys-shape-corner-large-increased);
+    --radius-xl: var(--md-sys-shape-corner-extra-large);
+    --radius-xli: var(--md-sys-shape-corner-extra-large-increased);
+    --radius-xxl: var(--md-sys-shape-corner-extra-extra-large);
+}

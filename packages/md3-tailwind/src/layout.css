@@ -1,0 +1,8 @@
+@theme {
+    --breakpoint-*: initial;
+    --breakpoint-compact: 0px; /* 0dp ~ 599dp */
+    --breakpoint-medium: 600px; /* 600dp ~ 839dp */
+    --breakpoint-expanded: 840px; /* 840dp ~ 1199dp */
+    --breakpoint-large: 1200px; /* 1200dp ~ 1599dp */
+    --breakpoint-extra-large: 1600px; /* 1600dp ~ */
+}

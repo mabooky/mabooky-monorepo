@@ -1,0 +1,21 @@
+{
+  "name": "@mabooky/md3-tailwind",
+  "version": "1.0.0",
+  "description": "Tailwind CSS v4 integration for @mabooky/md3",
+  "exports": {
+    ".": "./src/index.css",
+    "./colors": "./src/colors.css",
+    "./shapes": "./src/shapes.css",
+    "./typography": "./src/typography.css",
+    "./motion": "./src/motion.css"
+  },
+  "sideEffects": [
+    "./src/**/*.css"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "@mabooky/md3": "workspace:*"
+  }
+}
