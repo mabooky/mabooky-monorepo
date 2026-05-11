@@ -1,0 +1,62 @@
+@layer md3-core {
+
+    /* ===================== md3-interactive ===================== */
+    /* 인터랙티브 컴포넌트의 공통 루트 클래스.
+       StateLayer와의 연결, outline 제거 등 공통 동작을 담당한다.
+       non-interactive 컴포넌트(Badge, Divider 등)에는 적용하지 않는다. */
+
+    .md3-interactive {
+        position: relative;
+        outline: none;
+
+        &:hover > .md3-state-layer {
+            background-color: color-mix(in oklab, currentcolor 8%, transparent);
+        }
+
+        &:focus-visible > .md3-state-layer {
+            background-color: color-mix(in oklab, currentcolor 10%, transparent);
+            outline: var(--md-sys-color-secondary) solid 3px;
+            outline-offset: 3px;
+        }
+
+        &:active > .md3-state-layer:not([data-ripple="true"]) {
+            background-color: color-mix(in oklab, currentcolor 10%, transparent);
+        }
+    }
+
+
+    /* ===================== md3-state-layer ===================== */
+    /* hover/focus/active 오버레이 및 ripple 클리핑 컨테이너.
+       md3-interactive의 직계 자식으로 배치된다. */
+
+    .md3-state-layer {
+        display: block;
+        position: absolute;
+        inset: 0;
+        overflow: clip;
+        pointer-events: none;
+    }
+
+    .md3-state-layer__ripple {
+        display: block;
+        position: absolute;
+        border-radius: 50%;
+        background-color: currentcolor;
+        filter: blur(4px);
+        pointer-events: none;
+    }
+
+
+    /* ===================== md3-min-touch-target ===================== */
+    /* 48×48dp 최소 터치 타겟을 ::after 가상 요소로 확장한다.
+       최상위 요소에 overflow가 없으므로 border-radius에 잘리지 않는다. */
+
+    .md3-min-touch-target::after {
+        content: "";
+        position: absolute;
+        min-width: 48px;
+        min-height: 48px;
+        inset: 50%;
+        translate: -50% -50%;
+    }
+}

@@ -35,7 +35,7 @@ export function Button({
     return (
         <Comp
             ref={ref}
-            className={clsx("md3-button", "md3-min-touch-target", className)}
+            className={clsx("md3-interactive", "md3-button", "md3-min-touch-target", className)}
             data-size={size}
             data-shape={shape}
             data-color={color}
