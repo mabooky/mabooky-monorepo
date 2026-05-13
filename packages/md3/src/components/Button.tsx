@@ -1,3 +1,5 @@
+'use client';
+
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import clsx from "clsx";
 import { ComponentProps } from "react";
@@ -5,14 +7,16 @@ import { StateLayer } from "../core/StateLayer";
 import { Icon, IconProps } from "./Icon";
 
 export type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
+
 export type ButtonShape = "round" | "square";
-export type ButtonColor = "elevated" | "filled" | "tonal" | "outlined" | "text";
+
+export type ButtonVariant = "elevated" | "filled" | "tonal" | "outlined" | "text";
 
 export type ButtonProps = Omit<ComponentProps<"button">, "color"> & {
     asChild?: boolean;
     size?: ButtonSize;
     shape?: ButtonShape;
-    color?: ButtonColor;
+    variant?: ButtonVariant;
     selected?: boolean;
     ripple?: boolean;
 };
@@ -21,7 +25,7 @@ export function Button({
     asChild = false,
     size = "sm",
     shape = "round",
-    color = "filled",
+    variant = "filled",
     selected,
     ripple = false,
     ref,
@@ -38,19 +42,30 @@ export function Button({
             className={clsx("md3-interactive", "md3-button", "md3-min-touch-target", className)}
             data-size={size}
             data-shape={shape}
-            data-color={color}
+            data-variant={variant}
             aria-pressed={isToggle ? selected : undefined}
             {...props}
         >
-            <span className="md3-button__container" aria-hidden="true" />
+            <span className="md3-button__container" />
             <Slottable>{children}</Slottable>
             <StateLayer className="md3-button__state-layer" ripple={ripple} />
         </Comp>
     );
 }
 
-Button.Icon = function ButtonIcon({ className, ...props }: IconProps) {
-    return (
-        <Icon className={clsx("md3-button__icon", className)} {...props} />
-    );
+type ButtonIconProps =
+    | ({ asChild?: false } & IconProps)
+    | ({ asChild: true } & ComponentProps<"span">);
+
+Button.Icon = function ButtonIcon({ asChild, className, ...props }: ButtonIconProps) {
+    if (asChild) {
+        return <Slot className={clsx("md3-button__icon", className)} {...(props as ComponentProps<"span">)} />;
+    }
+    return <Icon className={clsx("md3-button__icon", className)} {...(props as IconProps)} />;
 };
+
+Button.Label = function ButtonLabel({ className, ...props }: ComponentProps<"span">) {
+    return (
+        <span className={clsx("md3-button__label", className)} {...props} />
+    );
+}
