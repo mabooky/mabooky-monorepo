@@ -1,276 +1,387 @@
 @layer md3-components {
-    .md3-button {
-        position: relative; 
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        white-space: nowrap;
-        text-decoration: none;
-        isolation: isolate;
-        transition:
-            color var(--md-sys-motion-spring-fast-effects);
+    /* Layer 1: 공통 및 기본 스타일 */
+    @layer {
+        .md3-button {
+            --_color-key:                  unset;
+            --_color-on-key:               unset;
+            --_color-key-container:        unset;
+            --_color-on-key-container:     unset;
+            --_border-radius: unset;
 
-        &[aria-disabled="true"] {
+            &[data-color="primary"] {
+                --_color-key: var(--md-sys-color-primary);
+                --_color-on-key: var(--md-sys-color-on-primary);
+                --_color-key-container: var(--md-sys-color-primary-container);
+                --_color-on-key-container: var(--md-sys-color-on-primary-container);
+            }
+            &[data-color="secondary"] {
+                --_color-key: var(--md-sys-color-secondary);
+                --_color-on-key: var(--md-sys-color-on-secondary);
+                --_color-key-container: var(--md-sys-color-secondary-container);
+                --_color-on-key-container: var(--md-sys-color-on-secondary-container);
+            }
+            &[data-color="tertiary"] {
+                --_color-key: var(--md-sys-color-tertiary);
+                --_color-on-key: var(--md-sys-color-on-tertiary);
+                --_color-key-container: var(--md-sys-color-tertiary-container);
+                --_color-on-key-container: var(--md-sys-color-on-tertiary-container);
+            }
+
+            position: relative;
+            display: inline-flex;
+            width: fit-content;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+
+            & > .md3-button__container {
+                position: absolute;
+                inset: 0;
+                box-sizing: border-box;
+                border-radius: var(--_border-radius);
+                transition: 
+                    border-radius var(--md-sys-motion-spring-fast-spatial),
+                    background-color var(--md-sys-motion-spring-fast-effects),
+                    color var(--md-sys-motion-spring-fast-effects);
+                border-style: solid;
+            }
+
+            & > .md3-button__icon, & > .md3-button__label {
+                position: relative;
+            }
+
+            & > .md3-button__state-layer {
+                border-radius: var(--_border-radius);
+                transition: border-radius var(--md-sys-motion-spring-fast-spatial);
+            }
+        }
+
+        /*
+        +----------+-----------------------+------------------------+------------------------+-----------+
+        |  variant |    container color    | container border color |   icon & label color   | elevation |
+        +==========+=======================+========================+========================+===========+
+        | elevated | surface-container-low |            -           |          key,          |   level1  |
+        |          |                       |                        |         primary        |           |
+        +----------+-----------------------+------------------------+------------------------+-----------+
+        |  filled  |          key,         |            -           |         on-key,        |           |
+        |          |        primary        |                        |       on-primary       |           |
+        +----------+-----------------------+------------------------+------------------------+           |
+        |   tonal  |     key-container,    |            -           |    on-key-container,   |           |
+        |          |  secondary-container  |                        | on-secondary-container |     -     |
+        +----------+-----------------------+------------------------+------------------------+           |
+        | outlined |           -           |     outline-variant    |   on-surface-variant   |           |
+        +----------+-----------------------+------------------------+------------------------+           |
+        |   text   |           -           |            -           |          key,          |           |
+        |          |                       |                        |         primary        |           |
+        +----------+-----------------------+------------------------+------------------------+-----------+
+        */
+        .md3-button[data-variant="elevated"] {
+            > .md3-button__container {
+                background-color: var(--md-sys-color-surface-container-low);
+                border-color: transparent;
+                box-shadow: var(--md3-shadow-elevation-level1);
+            }
+            color: var(--_color-key, var(--md-sys-color-primary));
+        }
+        .md3-button[data-variant="filled"] {
+            > .md3-button__container {
+                background-color: var(--_color-key, var(--md-sys-color-primary));
+                border-color: transparent;
+            }
+            color: var(--_color-on-key, var(--md-sys-color-on-primary));
+        }
+        .md3-button[data-variant="tonal"] {
+            > .md3-button__container {
+                background-color: var(--_color-key-container, var(--md-sys-color-secondary-container));
+                border-color: transparent;
+            }
+            color: var(--_color-on-key-container, var(--md-sys-color-on-secondary-container));
+        }
+        .md3-button[data-variant="outlined"] {
+            > .md3-button__container {
+                background-color: transparent;
+                border-color: var(--md-sys-color-outline-variant);
+            }
+            color: var(--md-sys-color-on-surface-variant);
+        }
+        .md3-button[data-variant="text"] {
+            > .md3-button__container {
+                background-color: transparent;
+                border-color: transparent;
+            }
+            color: var(--_color-key, var(--md-sys-color-primary));
+        }
+
+        /*
+        +------+--------+---------------+----------------+-----------+---------------+----------------------+--------------------+------------------+
+        | size | height | outline width |   typography   | icon size |  shape round  |     shape square     | horizontal padding | icon & label gap |
+        +======+========+===============+================+===========+===============+======================+====================+==================+
+        |  xs  |  32dp  |               |                |           |               |                      |        12dp        |        4dp       |
+        +------+--------+               |   Label Large  |    20dp   |               |    Medium rounding   +--------------------+------------------+
+        |  sm  |  40dp  |      1dp      |                |           |               |                      |        16dp        |                  |
+        +------+--------+               +----------------+-----------+               +----------------------+--------------------+        8dp       |
+        |  md  |  56dp  |               |  Title Medium  |    24dp   | Fully rounded |    Large rounding    |        24dp        |                  |
+        +------+--------+---------------+----------------+-----------+               +----------------------+--------------------+------------------+
+        |  lg  |  96dp  |      2dp      | Headline Small |    32dp   |               |                      |        48dp        |       12dp       |
+        +------+--------+---------------+----------------+-----------+               | Extra large rounding +--------------------+------------------+
+        |  xl  |  136dp |      3dp      | Headline Large |    40dp   |               |                      |        64dp        |       16dp       |
+        +------+--------+---------------+----------------+-----------+---------------+----------------------+--------------------+------------------+
+        */
+        .md3-button[data-size="xs"] {
+            height: calc(32 / 16 * 1rem);
+            &[data-shape="round"] { --_border-radius: calc(16 / 16 * 1rem); /* Fully rounded */ }
+            &[data-shape="square"] { --_border-radius: var(--md-sys-shape-corner-medium); }
+            padding-inline: calc(12 / 16 * 1rem);  
+            gap: calc(4 / 16 * 1rem);
+
+            > .md3-button__container {
+                border-width: calc(1 / 16 * 1rem);
+            }
+            > .md3-button__icon {
+                font-size: calc(20 / 16 * 1rem);
+            }
+            > .md3-button__label {
+                font-family: var(--md-sys-typescale-label-large-font);
+                font-weight: var(--md-sys-typescale-label-large-weight);
+                font-size: var(--md-sys-typescale-label-large-size);
+                letter-spacing: var(--md-sys-typescale-label-large-tracking);
+                line-height: var(--md-sys-typescale-label-large-line-height);
+            }
+        }
+        .md3-button[data-size="sm"] {
+            height: calc(40 / 16 * 1rem);
+            &[data-shape="round"] { --_border-radius: calc(20 / 16 * 1rem); /* Fully rounded */ }
+            &[data-shape="square"] { --_border-radius: var(--md-sys-shape-corner-medium); }
+            padding-inline: calc(16 / 16 * 1rem);  
+            gap: calc(8 / 16 * 1rem);
+
+            > .md3-button__container {
+                border-width: calc(1 / 16 * 1rem);  
+            }
+            > .md3-button__icon {
+                font-size: calc(20 / 16 * 1rem);
+            }
+            > .md3-button__label {
+                font-family: var(--md-sys-typescale-label-large-font);
+                font-weight: var(--md-sys-typescale-label-large-weight);
+                font-size: var(--md-sys-typescale-label-large-size);
+                letter-spacing: var(--md-sys-typescale-label-large-tracking);
+                line-height: var(--md-sys-typescale-label-large-line-height);
+            }
+        }
+        .md3-button[data-size="md"] {
+            height: calc(56 / 16 * 1rem);
+            &[data-shape="round"] { --_border-radius: calc(28 / 16 * 1rem); /* Fully rounded */ }
+            &[data-shape="square"] { --_border-radius: var(--md-sys-shape-corner-large); }
+            padding-inline: calc(24 / 16 * 1rem);  
+            gap: calc(8 / 16 * 1rem);
+
+            > .md3-button__container {
+                border-width: calc(1 / 16 * 1rem);
+            }
+            > .md3-button__icon {
+                font-size: calc(24 / 16 * 1rem);
+            }
+            > .md3-button__label {
+                font-family: var(--md-sys-typescale-title-medium-font);
+                font-weight: var(--md-sys-typescale-title-medium-weight);
+                font-size: var(--md-sys-typescale-title-medium-size);
+                letter-spacing: var(--md-sys-typescale-title-medium-tracking);
+                line-height: var(--md-sys-typescale-title-medium-line-height);
+            }
+        }
+        .md3-button[data-size="lg"] {
+            height: calc(96 / 16 * 1rem);
+            &[data-shape="round"] { --_border-radius: calc(48 / 16 * 1rem); /* Fully rounded */ }
+            &[data-shape="square"] { --_border-radius: var(--md-sys-shape-corner-extra-large); }
+            padding-inline: calc(48 / 16 * 1rem);
+            gap: calc(12 / 16 * 1rem);
+
+            > .md3-button__container {
+                border-width: calc(2 / 16 * 1rem);
+            }
+            > .md3-button__icon {
+                font-size: calc(32 / 16 * 1rem);
+            }
+            > .md3-button__label {
+                font-family: var(--md-sys-typescale-headline-small-font);
+                font-weight: var(--md-sys-typescale-headline-small-weight);
+                font-size: var(--md-sys-typescale-headline-small-size);
+                letter-spacing: var(--md-sys-typescale-headline-small-tracking);
+                line-height: var(--md-sys-typescale-headline-small-line-height);
+            }
+        }
+        .md3-button[data-size="xl"] {
+            height: calc(136 / 16 * 1rem);
+            &[data-shape="round"] { --_border-radius: calc(68 / 16 * 1rem); /* Fully rounded */ }
+            &[data-shape="square"] { --_border-radius: var(--md-sys-shape-corner-extra-large); }
+            padding-inline: calc(64 / 16 * 1rem);
+            gap: calc(16 / 16 * 1rem);
+
+            > .md3-button__container {
+                border-width: calc(3 / 16 * 1rem);
+            }
+            > .md3-button__icon {
+                font-size: calc(40 / 16 * 1rem);
+            }
+            > .md3-button__label {
+                font-family: var(--md-sys-typescale-headline-large-font);
+                font-weight: var(--md-sys-typescale-headline-large-weight);
+                font-size: var(--md-sys-typescale-headline-large-size);
+                letter-spacing: var(--md-sys-typescale-headline-large-tracking);
+                line-height: var(--md-sys-typescale-headline-large-line-height);
+            }
+        }
+        
+    }
+
+    /* Layer 2: 토글 버튼인 경우의 선택 여부별 스타일 */
+    @layer {
+        /*
+        +----------+------------+-------------------+------------------------+--------------------+
+        |  variant |  selection |  container color  | container border color | icon & label color |
+        +==========+============+===================+========================+====================+
+        | elevated |  selected  |        key,       |            -           |       on-key,      |
+        |          |            |      primary      |                        |     on-primary     |
+        +----------+------------+-------------------+------------------------+--------------------+
+        |  filled  | unselected | surface-container |            -           | on-surface-variant |
+        +----------+------------+-------------------+------------------------+--------------------+
+        |   tonal  |  selected  |        key,       |            -           |       on-key,      |
+        |          |            |     secondary     |                        |    on-secondary    |
+        +----------+------------+-------------------+------------------------+--------------------+
+        | outlined |  selected  |  inverse-surface  |            -           | inverse-on-surface |
+        +----------+------------+-------------------+------------------------+--------------------+
+
+        selection이 명시되지 않은 경우 기본 스타일을 그대로 활용하며, text variant는 토글 버튼을 지원하지 않는다.
+        특히 outlined variant의 경우 기본 스타일에서 border-color를 정의하므로 선택 시에 투명 처리해야 한다.
+        */
+        .md3-button[data-variant="elevated"][aria-pressed="true"] {
+            > .md3-button__container {
+                background-color: var(--_color-key, var(--md-sys-color-primary));
+            }
+            color: var(--_color-on-key, var(--md-sys-color-on-primary));
+        }
+        .md3-button[data-variant="filled"][aria-pressed="false"] {
+            > .md3-button__container {
+                background-color: var(--md-sys-color-surface-container);
+            }
+            color: var(--md-sys-color-on-surface-variant);
+        }
+        .md3-button[data-variant="tonal"][aria-pressed="true"] {
+            > .md3-button__container {
+                background-color: var(--_color-key, var(--md-sys-color-secondary));
+            }
+            color: var(--_color-on-key, var(--md-sys-color-on-secondary));
+        }
+        .md3-button[data-variant="outlined"][aria-pressed="true"] {
+            > .md3-button__container {
+                background-color: var(--md-sys-color-inverse-surface);
+                border-color: transparent;
+            }
+            color: var(--md-sys-color-inverse-on-surface);
+        }
+
+        /*
+        +------+----------------------+-----------------------+
+        | size | selected shape round | selected shape square |
+        +======+======================+=======================+
+        |  xs  |                      |                       |
+        +------+    Medium rounding   |                       |
+        |  sm  |                      |                       |
+        +------+----------------------+                       |
+        |  md  |    Large rounding    |     Fully rounded     |
+        +------+----------------------+                       |
+        |  lg  |                      |                       |
+        +------+ Extra large rounding |                       |
+        |  xl  |                      |                       |
+        +------+----------------------+-----------------------+
+        */
+        .md3-button[data-size="xs"][aria-pressed="true"] {
+            &[data-shape="round"] { --_border-radius: var(--md-sys-shape-corner-medium); }
+            &[data-shape="square"] { --_border-radius: calc(16 / 16 * 1rem); }
+        }
+        .md3-button[data-size="sm"][aria-pressed="true"] {
+            &[data-shape="round"] { --_border-radius: var(--md-sys-shape-corner-medium); }
+            &[data-shape="square"] { --_border-radius: calc(20 / 16 * 1rem); }
+        }
+        .md3-button[data-size="md"][aria-pressed="true"] {
+            &[data-shape="round"] { --_border-radius: var(--md-sys-shape-corner-large); }
+            &[data-shape="square"] { --_border-radius: calc(28 / 16 * 1rem); }
+        }
+        .md3-button[data-size="lg"][aria-pressed="true"] {
+            &[data-shape="round"] { --_border-radius: var(--md-sys-shape-corner-extra-large); }
+            &[data-shape="square"] { --_border-radius: calc(48 / 16 * 1rem); }
+        }
+        .md3-button[data-size="xl"][aria-pressed="true"] {
+            &[data-shape="round"] { --_border-radius: var(--md-sys-shape-corner-extra-large); }
+            &[data-shape="square"] { --_border-radius: calc(68 / 16 * 1rem); }
+        }
+    }
+
+    /* Layer 3: pressed 스타일 (상태 레이어 색상은 알아서 변하므로 버튼을 눌렀을 때 모양 변화만 기술) */
+    @layer {
+        /*
+        +------+-----------------+
+        | size |  shape pressed  |
+        +======+=================+
+        |  xs  |                 |
+        +------+  Small rounding |
+        |  sm  |                 |
+        +------+-----------------+
+        |  md  | Medium rounding |
+        +------+-----------------+
+        |  lg  |                 |
+        +------+  Large rounding |
+        |  xl  |                 |
+        +------+-----------------+
+        */
+        .md3-button[data-size="xs"]:active, .md3-button[data-size="sm"]:active {
+            --_border-radius: var(--md-sys-shape-corner-small);
+        }
+        .md3-button[data-size="md"]:active {
+            --_border-radius: var(--md-sys-shape-corner-medium);
+        }
+        .md3-button[data-size="lg"]:active, .md3-button[data-size="xl"]:active {
+            --_border-radius: var(--md-sys-shape-corner-large);
+        }
+    }
+
+    /* Layer 4: disabled 스타일 */
+    @layer {
+        .md3-button[aria-disabled="true"] {
             pointer-events: none;
         }
 
-        & > .md3-button__container,
-        & > .md3-button__state-layer {
-            border-radius: var(--_button-radius);
-        }
+        /* 
+        +----------+------------------+------------------------+--------------------+-----------+
+        |  variant |  container color | container border color | icon & label color | elevation |
+        +==========+==================+========================+====================+===========+
+        | elevated |                  |                        |                    |           |
+        +----------+                  |                        |                    |           |
+        |  filled  |                  |                        |                    |           |
+        +----------+ on-surface / 0.1 |            -           |  on-surface / 0.38 |   level0  |
+        |   tonal  |                  |                        |                    |           |
+        +----------+                  |                        |                    |           |
+        |   text   |                  |                        |                    |           |
+        +----------+------------------+------------------------+--------------------+-----------+
 
-        & > .md3-button__container {
-            position: absolute;
-            inset: 0;
-            z-index: -1;
-            border-style: solid;
-            border-color: transparent;
-            transition:
-                border-radius var(--md-sys-motion-spring-fast-spatial),
-                background-color var(--md-sys-motion-spring-fast-effects),
-                border-color var(--md-sys-motion-spring-fast-effects),
-                box-shadow var(--md-sys-motion-spring-fast-effects);
-        }
-
-        & > .md3-button__state-layer {
-            transition:
-                border-radius var(--md-sys-motion-spring-fast-spatial);
-        }
-
-        & > .md3-button__icon {
-            flex-shrink: 0;
-            display: flex;
-        }
-
-        /* ===================== SIZE ===================== */
-
-        &[data-size="xs"] {
-            height: calc(32 / 16 * 1rem);
-            padding-inline: calc(12 / 16 * 1rem);
-            gap: calc(4 / 16 * 1rem);
-            font-family: var(--md-sys-typescale-label-large-font);
-            font-size: var(--md-sys-typescale-label-large-size);
-            font-weight: var(--md-sys-typescale-label-large-weight);
-            line-height: var(--md-sys-typescale-label-large-line-height);
-            letter-spacing: var(--md-sys-typescale-label-large-tracking);
-            & > .md3-button__icon { font-size: calc(20 / 16 * 1rem); }
-
-            &[data-shape="round"] {
-                --_button-radius: calc(16 / 16 * 1rem);
-                &[aria-pressed="true"] { --_button-radius: var(--md-sys-shape-corner-medium); }
-            }
-            &[data-shape="square"] {
-                --_button-radius: var(--md-sys-shape-corner-medium);
-                &[aria-pressed="true"] { --_button-radius: calc(16 / 16 * 1rem); }
-            }
-            /* pressed 상태 border-radius 축소 (MD3 pressed shape).
-               aria-disabled는 네이티브 disabled와 달리 :active를 막지 않으므로 명시적으로 제외.
-               pointer-events: none으로 마우스 클릭은 막히지만, 키보드(스페이스바)로는 :active가 발동할 수 있음. */
-            &:active:not([aria-disabled="true"]) { --_button-radius: var(--md-sys-shape-corner-small); }
-            &[data-color="outlined"] > .md3-button__container { border-width: 1px; }
-        }
-
-        &[data-size="sm"] {
-            height: calc(40 / 16 * 1rem);
-            padding-inline: calc(16 / 16 * 1rem);
-            gap: calc(8 / 16 * 1rem);
-            font-family: var(--md-sys-typescale-label-large-font);
-            font-size: var(--md-sys-typescale-label-large-size);
-            font-weight: var(--md-sys-typescale-label-large-weight);
-            line-height: var(--md-sys-typescale-label-large-line-height);
-            letter-spacing: var(--md-sys-typescale-label-large-tracking);
-            & > .md3-button__icon { font-size: calc(20 / 16 * 1rem); }
-
-            &[data-shape="round"] {
-                --_button-radius: calc(20 / 16 * 1rem);
-                &[aria-pressed="true"] { --_button-radius: var(--md-sys-shape-corner-medium); }
-            }
-            &[data-shape="square"] {
-                --_button-radius: var(--md-sys-shape-corner-medium);
-                &[aria-pressed="true"] { --_button-radius: calc(20 / 16 * 1rem); }
-            }
-            &:active:not([aria-disabled="true"]) { --_button-radius: var(--md-sys-shape-corner-small); }
-            &[data-color="outlined"] > .md3-button__container { border-width: 1px; }
-        }
-
-        &[data-size="md"] {
-            height: calc(56 / 16 * 1rem);
-            padding-inline: calc(24 / 16 * 1rem);
-            gap: calc(8 / 16 * 1rem);
-            font-family: var(--md-sys-typescale-title-medium-font);
-            font-size: var(--md-sys-typescale-title-medium-size);
-            font-weight: var(--md-sys-typescale-title-medium-weight);
-            line-height: var(--md-sys-typescale-title-medium-line-height);
-            letter-spacing: var(--md-sys-typescale-title-medium-tracking);
-            & > .md3-button__icon { font-size: calc(24 / 16 * 1rem); }
-
-            &[data-shape="round"] {
-                --_button-radius: calc(28 / 16 * 1rem);
-                &[aria-pressed="true"] { --_button-radius: var(--md-sys-shape-corner-large); }
-            }
-            &[data-shape="square"] {
-                --_button-radius: var(--md-sys-shape-corner-large);
-                &[aria-pressed="true"] { --_button-radius: calc(28 / 16 * 1rem); }
-            }
-            &:active:not([aria-disabled="true"]) { --_button-radius: var(--md-sys-shape-corner-medium); }
-            &[data-color="outlined"] > .md3-button__container { border-width: 1px; }
-        }
-
-        &[data-size="lg"] {
-            height: calc(96 / 16 * 1rem);
-            padding-inline: calc(48 / 16 * 1rem);
-            gap: calc(12 / 16 * 1rem);
-            font-family: var(--md-sys-typescale-headline-small-font);
-            font-size: var(--md-sys-typescale-headline-small-size);
-            font-weight: var(--md-sys-typescale-headline-small-weight);
-            line-height: var(--md-sys-typescale-headline-small-line-height);
-            letter-spacing: var(--md-sys-typescale-headline-small-tracking);
-            & > .md3-button__icon { font-size: calc(32 / 16 * 1rem); }
-
-            &[data-shape="round"] {
-                --_button-radius: calc(48 / 16 * 1rem);
-                &[aria-pressed="true"] { --_button-radius: var(--md-sys-shape-corner-extra-large); }
-            }
-            &[data-shape="square"] {
-                --_button-radius: var(--md-sys-shape-corner-extra-large);
-                &[aria-pressed="true"] { --_button-radius: calc(48 / 16 * 1rem); }
-            }
-            &:active:not([aria-disabled="true"]) { --_button-radius: var(--md-sys-shape-corner-large); }
-            &[data-color="outlined"] > .md3-button__container { border-width: 2px; }
-        }
-
-        &[data-size="xl"] {
-            height: calc(136 / 16 * 1rem);
-            padding-inline: calc(64 / 16 * 1rem);
-            gap: calc(16 / 16 * 1rem);
-            font-family: var(--md-sys-typescale-headline-large-font);
-            font-size: var(--md-sys-typescale-headline-large-size);
-            font-weight: var(--md-sys-typescale-headline-large-weight);
-            line-height: var(--md-sys-typescale-headline-large-line-height);
-            letter-spacing: var(--md-sys-typescale-headline-large-tracking);
-            & > .md3-button__icon { font-size: calc(40 / 16 * 1rem); }
-
-            &[data-shape="round"] {
-                --_button-radius: calc(68 / 16 * 1rem);
-                &[aria-pressed="true"] { --_button-radius: var(--md-sys-shape-corner-extra-large); }
-            }
-            &[data-shape="square"] {
-                --_button-radius: var(--md-sys-shape-corner-extra-large);
-                &[aria-pressed="true"] { --_button-radius: calc(68 / 16 * 1rem); }
-            }
-            &:active:not([aria-disabled="true"]) { --_button-radius: var(--md-sys-shape-corner-large); }
-            &[data-color="outlined"] > .md3-button__container { border-width: 3px; }
-        }
-
-        /* ===================== COLOR ===================== */
-
-        /* elevated - default & toggle unselected */
-        &[data-color="elevated"] {
-            color: var(--md-sys-color-primary);
-
+        outlined의 경우 예외적으로 선택 여부에 따라 disabled 스타일이 달라진다.
+        +----------+------------+------------------+------------------------+--------------------+
+        |  variant |  selection |  container color | container border color | icon & label color |
+        +==========+============+==================+========================+====================+
+        |          | unselected | on-surface / 0.1 |     outline-variant    |                    |
+        | outlined +------------+------------------+------------------------+  on-surface / 0.38 |
+        |          |  selected  | on-surface / 0.1 |            -           |                    |
+        +----------+------------+------------------+------------------------+--------------------+
+        그러나 unselected의 경우 기본 스타일에 이미 border-color가 정의되어 있으며, selected의 경우
+        Layer 2에서 border-color가 투명 처리되므로 기존 공통 로직을 함께 적용해도 무방하다.
+        */
+        .md3-button[aria-disabled="true"] {
             & > .md3-button__container {
-                background-color: var(--md-sys-color-surface-container-low);
-                box-shadow: var(--md3-shadow-elevation-1);
+                background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
+                box-shadow: none;
             }
-
-            &[aria-pressed="true"] {
-                color: var(--md-sys-color-on-primary);
-                & > .md3-button__container {
-                    background-color: var(--md-sys-color-primary);
-                }
-            }
-
-            &[aria-disabled="true"] {
-                color: color-mix(in oklab, var(--md-sys-color-on-surface) 38%, transparent);
-                & > .md3-button__container {
-                    background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
-                    box-shadow: none;
-                }
-            }
-        }
-
-        /* filled - default & toggle selected */
-        &[data-color="filled"] {
-            color: var(--md-sys-color-on-primary);
-
-            & > .md3-button__container {
-                background-color: var(--md-sys-color-primary);
-            }
-
-            &[aria-pressed="false"] {
-                color: var(--md-sys-color-on-surface-variant);
-                & > .md3-button__container {
-                    background-color: var(--md-sys-color-surface-container);
-                }
-            }
-
-            &[aria-disabled="true"] {
-                color: color-mix(in oklab, var(--md-sys-color-on-surface) 38%, transparent);
-                & > .md3-button__container {
-                    background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
-                }
-            }
-        }
-
-        /* tonal - default & toggle unselected */
-        &[data-color="tonal"] {
-            color: var(--md-sys-color-on-secondary-container);
-
-            & > .md3-button__container {
-                background-color: var(--md-sys-color-secondary-container);
-            }
-
-            &[aria-pressed="true"] {
-                color: var(--md-sys-color-on-secondary);
-                & > .md3-button__container {
-                    background-color: var(--md-sys-color-secondary);
-                }
-            }
-
-            &[aria-disabled="true"] {
-                color: color-mix(in oklab, var(--md-sys-color-on-surface) 38%, transparent);
-                & > .md3-button__container {
-                    background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
-                }
-            }
-        }
-
-        /* outlined - default & toggle unselected */
-        &[data-color="outlined"] {
-            color: var(--md-sys-color-on-surface-variant);
-
-            & > .md3-button__container {
-                border-color: var(--md-sys-color-outline-variant);
-            }
-
-            &[aria-pressed="true"] {
-                color: var(--md-sys-color-inverse-on-surface);
-                & > .md3-button__container {
-                    background-color: var(--md-sys-color-inverse-surface);
-                    border-color: transparent;
-                }
-            }
-
-            &[aria-disabled="true"] {
-                color: color-mix(in oklab, var(--md-sys-color-on-surface) 38%, transparent);
-
-                &[aria-pressed="true"] > .md3-button__container {
-                    background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
-                }
-            }
-        }
-
-        /* text - default only */
-        &[data-color="text"] {
-            color: var(--md-sys-color-primary);
-
-            &[aria-disabled="true"] {
-                color: color-mix(in oklab, var(--md-sys-color-on-surface) 38%, transparent);
-                & > .md3-button__container {
-                    background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
-                }
-            }
+            color: color-mix(in oklab, var(--md-sys-color-on-surface) 38%, transparent);
         }
     }
 }
