@@ -16,7 +16,7 @@ export type ButtonProps = ComponentProps<'button'> & MD3InteractiveComponentProp
     selected?: boolean;
 };
 
-export function Button({
+export function ButtonRoot({
     // ⬇️ MD3InteractiveComponentProps
     ripple = false,
 
@@ -57,14 +57,14 @@ type ButtonIconProps =
     | ({ asChild?: false } & IconProps)
     | ({ asChild: true } & ComponentProps<"span">);
 
-Button.Icon = function ButtonIcon({ asChild, className, ...props }: ButtonIconProps) {
+export function ButtonIcon({ asChild, className, ...props }: ButtonIconProps) {
     if (asChild) {
         return <Slot className={clsx("md3-button__icon", className)} {...(props as ComponentProps<"span">)} />;
     }
     return <Icon className={clsx("md3-button__icon", className)} {...(props as IconProps)} />;
 };
 
-Button.Label = function ButtonLabel({ className, ...props }: ComponentProps<"span">) {
+export function ButtonLabel({ className, ...props }: ComponentProps<"span">) {
     return (
         <span className={clsx("md3-button__label", className)} {...props} />
     );
