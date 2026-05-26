@@ -4,7 +4,7 @@ import { MD3StyleProvider } from "./MD3StyleProvider";
 import { MD3ContextProvider } from "./MD3ContextProvider";
 import { cookies } from "next/headers";
 
-export type MD3ProviderProps = ComponentProps<"div"> & {
+export type MD3ProviderProps = Omit<ComponentProps<"div">, "id"> & {
     colorScheme?: ColorScheme;
     cookieName?: string;
     defaultTheme?: "system" | "light" | "dark";
@@ -23,8 +23,8 @@ export async function MD3Provider({
     children,
     ...props
 }: MD3ProviderProps) {
-    const id = useId();
-    const escapedId = id.replace(/[:_]/g, "");
+    const generatedId = useId();
+    const escapedId = generatedId.replace(/[:_]/g, "");
     const providerId = `md3-provider-${escapedId.toLowerCase()}`;
 
     let savedTheme: 'system' | 'light' | 'dark' | undefined;

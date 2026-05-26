@@ -33,7 +33,7 @@ function generateStyleSheetFor(id: string, colorScheme: ColorScheme): string {
     return `#${id}[data-theme="light"][data-contrast="standard"]{${lightStandard}}#${id}[data-theme="light"][data-contrast="medium"]{${lightMedium}}#${id}[data-theme="light"][data-contrast="high"]{${lightHigh}}#${id}[data-theme="dark"][data-contrast="standard"]{${darkStandard}}#${id}[data-theme="dark"][data-contrast="medium"]{${darkMedium}}#${id}[data-theme="dark"][data-contrast="high"]{${darkHigh}}`;
 }
 
-export type MD3StyleProviderProps = ComponentProps<"div"> & {
+export type MD3StyleProviderProps = Omit<ComponentProps<"div">, "id"> & {
     providerId: string;
     colorScheme: ColorScheme;
     initialTheme: "system" | "light" | "dark";
@@ -42,7 +42,6 @@ export type MD3StyleProviderProps = ComponentProps<"div"> & {
 
 export function MD3StyleProvider({
     ref,
-    id,
     style,
     providerId,
     colorScheme,
@@ -97,7 +96,7 @@ export function MD3StyleProvider({
             <div
                 ref={ref}
                 id={providerId}
-                style={{ display: "contents", ...style }}
+                style={{ ...style, display: "contents" }}
                 suppressHydrationWarning
                 {...props}
             >
