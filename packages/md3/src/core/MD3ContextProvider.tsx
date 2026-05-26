@@ -63,7 +63,7 @@ export function MD3ContextProvider({
 
         // 2. 쿠키 사용하는 경우 쿠키 업데이트
         if (cookieName) {
-            document.cookie = `${cookieName}-theme=${newTheme}; path=/; max-age=34560000`;
+            document.cookie = `${cookieName}-theme=${newTheme}; path=/; max-age=34560000; SameSite=Lax`;
         }
 
         // 3. DOM 업데이트
@@ -82,7 +82,7 @@ export function MD3ContextProvider({
 
         // 2. 쿠키 사용하는 경우 쿠키 업데이트
         if (cookieName) {
-            document.cookie = `${cookieName}-contrast=${newContrast}; path=/; max-age=34560000`;
+            document.cookie = `${cookieName}-contrast=${newContrast}; path=/; max-age=34560000; SameSite=Lax`;
         }
 
         // 3. DOM 업데이트
