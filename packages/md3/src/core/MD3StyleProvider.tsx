@@ -1,4 +1,3 @@
-import { ComponentProps } from "react";
 import { ColorScheme } from "./ColorScheme";
 
 function camelToKebab(str: string): string {
@@ -6,7 +5,7 @@ function camelToKebab(str: string): string {
 }
 
 function opaqueArgbToHex(argb: number): string {
-    return `#${argb.toString(16).padStart(8, "0").slice(2)}`;
+    return `#${(argb >>> 0).toString(16).padStart(8, "0").slice(2)}`;
 }
 
 function cssVarsFor(
@@ -22,91 +21,54 @@ function cssVarsFor(
         .join("");
 }
 
-function generateStyleSheetFor(id: string, colorScheme: ColorScheme): string {
-    const lightStandard = cssVarsFor("light", "standard", colorScheme);
-    const lightMedium = cssVarsFor("light", "medium", colorScheme);
-    const lightHigh = cssVarsFor("light", "high", colorScheme);
-    const darkStandard = cssVarsFor("dark", "standard", colorScheme);
-    const darkMedium = cssVarsFor("dark", "medium", colorScheme);
-    const darkHigh = cssVarsFor("dark", "high", colorScheme);
+function generateStyleSheetFor(className: string, colorScheme: ColorScheme): string {
+    const cn = className;
+    const ls = cssVarsFor("light", "standard", colorScheme);
+    const lm = cssVarsFor("light", "medium", colorScheme);
+    const lh = cssVarsFor("light", "high", colorScheme);
+    const ds = cssVarsFor("dark", "standard", colorScheme);
+    const dm = cssVarsFor("dark", "medium", colorScheme);
+    const dh = cssVarsFor("dark", "high", colorScheme);
 
-    return `#${id}[data-theme="light"][data-contrast="standard"]{${lightStandard}}#${id}[data-theme="light"][data-contrast="medium"]{${lightMedium}}#${id}[data-theme="light"][data-contrast="high"]{${lightHigh}}#${id}[data-theme="dark"][data-contrast="standard"]{${darkStandard}}#${id}[data-theme="dark"][data-contrast="medium"]{${darkMedium}}#${id}[data-theme="dark"][data-contrast="high"]{${darkHigh}}`;
+    // CSS 스펙은 ./provider-stylesheet-spec.css 파일에 명세되어 있음
+    return `.${cn}{display:contents;${ls}}` +
+           `.${cn}[data-theme="dark"]{${ds}}` +
+           `@media(prefers-color-scheme:dark){.${cn}[data-theme="system"]{${ds}}}` +
+           `.${cn}[data-theme="light"][data-contrast="medium"]{${lm}}` +
+           `.${cn}[data-theme="dark"][data-contrast="medium"]{${dm}}` +
+           `@media(prefers-color-scheme:light){.${cn}[data-theme="system"][data-contrast="medium"]{${lm}}}` +
+           `@media(prefers-color-scheme:dark){.${cn}[data-theme="system"][data-contrast="medium"]{${dm}}}` +
+           `.${cn}[data-theme="light"][data-contrast="high"]{${lh}}` +
+           `.${cn}[data-theme="dark"][data-contrast="high"]{${dh}}` +
+           `@media(prefers-contrast:more){` +
+               `.${cn}[data-theme="light"][data-contrast="system"]{${lh}}` +
+               `.${cn}[data-theme="dark"][data-contrast="system"]{${dh}}` +
+           `}` +
+           `@media(prefers-color-scheme:light){` +
+               `.${cn}[data-theme="system"][data-contrast="high"]{${lh}}` +
+               `@media(prefers-contrast:more){.${cn}[data-theme="system"][data-contrast="system"]{${lh}}}` +
+           `}` +
+           `@media(prefers-color-scheme:dark){` +
+               `.${cn}[data-theme="system"][data-contrast="high"]{${dh}}` +
+               `@media(prefers-contrast:more){.${cn}[data-theme="system"][data-contrast="system"]{${dh}}}` +
+           `}`;
 }
 
-export type MD3StyleProviderProps = Omit<ComponentProps<"div">, "id"> & {
-    providerId: string;
+export type MD3StyleProviderProps = {
+    containerClassName: string;
     colorScheme: ColorScheme;
-    initialTheme: "system" | "light" | "dark";
-    initialContrast: "system" | "standard" | "medium" | "high";
 };
 
 export function MD3StyleProvider({
-    ref,
-    style,
-    providerId,
+    containerClassName,
     colorScheme,
-    initialTheme,
-    initialContrast,
-    children,
-    ...props
 }: MD3StyleProviderProps) {
-    const styleContent = generateStyleSheetFor(providerId, colorScheme);
-
-    /*
-     *  클라이언트 사이드에서 실행되어 FOUC를 방지하기 위해 data-* 값을 첫 페인트 이전에 설정하는 blocking script
-     *
-     *  원본 코드:
-     *  (function () {
-     *      const container = document.getElementById('${providerId}');
-     *      if (!container) return;
-     * 
-     *      const initialTheme = '${initialTheme}';
-     *      let resolvedInitialTheme = initialTheme;
-     *      if (initialTheme === 'system') {
-     *          const query = window.matchMedia('(prefers-color-scheme: dark)');
-     *          resolvedInitialTheme = query.matches ? 'dark' : 'light';
-     *      }
-     * 
-     *      const initialContrast = '${initialContrast}';
-     *      let resolvedInitialContrast = initialContrast;
-     *      if (initialContrast === 'system') {
-     *          const query = window.matchMedia('(prefers-contrast: more)');
-     *          resolvedInitialContrast = query.matches ? 'high' : 'standard';
-     *      }
-     * 
-     *      container.dataset.theme = resolvedInitialTheme;
-     *      container.dataset.contrast = resolvedInitialContrast;
-     *  })();
-     */
-    const themeExpr = initialTheme === 'system'
-        ? `m('(prefers-color-scheme: dark)').matches?'dark':'light'`
-        : `'${initialTheme}'`;
-    const contrastExpr = initialContrast === 'system'
-        ? `m('(prefers-contrast: more)').matches?'high':'standard'`
-        : `'${initialContrast}'`;
-    const usesM = initialTheme === 'system' || initialContrast === 'system';
-    const blockingScript = `((c${usesM ? ',m=matchMedia' : ''})=>c&&(c.dataset.theme=${themeExpr},c.dataset.contrast=${contrastExpr}))(document.getElementById('${providerId}'))`;
-
+    const styleContent = generateStyleSheetFor(containerClassName, colorScheme);
+    
+    // React 19부터는 <style> 요소가 자동으로 <head>에 삽입됨 (style hoisting)
     return (
-        <>
-            {/* React 19부터는 <style> 요소가 자동으로 <head>에 삽입됨 (style hoisting) */}
-            <style href={providerId} precedence="default">
-                {styleContent}
-            </style>
-            <div
-                ref={ref}
-                id={providerId}
-                style={{ ...style, display: "contents" }}
-                suppressHydrationWarning
-                {...props}
-            >
-                {/* div 첫 자식으로 위치: div가 DOM에 추가된 직후 실행되어 children 파싱 전에 data-theme을 설정 */}
-                <script
-                    suppressHydrationWarning
-                    dangerouslySetInnerHTML={{ __html: blockingScript }}
-                />
-                {children}
-            </div>
-        </>
+        <style href={containerClassName} precedence="default">
+            {styleContent}
+        </style>
     );
 }

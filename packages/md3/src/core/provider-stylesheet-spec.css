@@ -1,0 +1,54 @@
+.md3-provider-* {
+
+    /* 1. Standard Contrast ----------------------------------------------------- */
+
+    /* light, standard */
+
+    &[data-theme="dark"] { /* dark, standard */ }
+
+    @media (prefers-color-scheme: dark) {
+        &[data-theme="system"] { /* dark, standard */ }
+    }
+
+    /* 2. Medium Contrast ------------------------------------------------------- */
+
+    &[data-theme="light"][data-contrast="medium"] { /* light, medium */ }
+
+    &[data-theme="dark"][data-contrast="medium"] { /* dark, medium */ }
+
+    @media (prefers-color-scheme: light) {
+        &[data-theme="system"][data-contrast="medium"] { /* light, medium */ }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        &[data-theme="system"][data-contrast="medium"] { /* dark, medium */ }
+    }
+
+    /* 3. High Contrast -------------------------------------------------------- */
+
+    &[data-theme="light"][data-contrast="high"] { /* light, high */ }
+
+    &[data-theme="dark"][data-contrast="high"] { /* dark, high */ }
+
+    @media (prefers-contrast: more) {
+        &[data-theme="light"][data-contrast="system"] { /* light, high */ }
+
+        &[data-theme="dark"][data-contrast="system"] { /* dark, high */ }
+    }
+
+    @media (prefers-color-scheme: light) {
+        &[data-theme="system"][data-contrast="high"] { /* light, high */ }
+
+        @media (prefers-contrast: more) {
+            &[data-theme="system"][data-contrast="system"] { /* light, high */ }
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        &[data-theme="system"][data-contrast="high"] { /* dark, high */ }
+
+        @media (prefers-contrast: more) {
+            &[data-theme="system"][data-contrast="system"] { /* dark, high */ }
+        }
+    }
+}
