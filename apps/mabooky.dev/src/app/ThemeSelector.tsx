@@ -5,7 +5,7 @@ import { Button, useMD3Context } from "@mabooky/md3";
 export function ThemeSelector() {
     const context = useMD3Context();
     return (
-        <div className="flex flex-col gap-2">
+        <div className="mt-8 flex flex-col gap-2">
             <span className="text-title-medium">테마</span>
             <div className="flex flex-row gap-2">
                 <Button

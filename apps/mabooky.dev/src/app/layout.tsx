@@ -26,7 +26,7 @@ export default function RootLayout({
                     theme="system"
                     contrast="system"
                 >
-                    <div className="w-full h-full bg-surface">
+                    <div className="w-full large:h-full bg-surface">
                         {children}
                     </div>
                 </MD3Provider>
