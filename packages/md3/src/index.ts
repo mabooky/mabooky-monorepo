@@ -1,3 +1,5 @@
+import './styles.css';
+
 import { ButtonRoot, ButtonIcon, ButtonLabel } from './components/Button';
 
 export * from './core/ColorScheme';

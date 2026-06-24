@@ -5,10 +5,11 @@
   "main": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./md3.css": "./src/md3.css"
+    "./tailwind": "./src/tailwind/index.css"
   },
   "sideEffects": [
-    "./src/md3.css"
+    "./src/styles.css",
+    "./src/tailwind/index.css"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

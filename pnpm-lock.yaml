@@ -20,9 +20,6 @@ importers:
       '@mabooky/md3':
         specifier: workspace:*
         version: link:../../packages/md3
-      '@mabooky/md3-tailwind':
-        specifier: workspace:*
-        version: link:../../packages/md3-tailwind
       next:
         specifier: 16.2.2
         version: 16.2.2(@babel/core@7.29.7)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -85,12 +82,6 @@ importers:
       '@types/react-dom':
         specifier: 19.2.3
         version: 19.2.3(@types/react@19.2.17)
-
-  packages/md3-tailwind:
-    dependencies:
-      '@mabooky/md3':
-        specifier: workspace:*
-        version: link:../md3
 
 packages:
 
