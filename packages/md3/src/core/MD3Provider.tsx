@@ -1,7 +1,7 @@
 import { ComponentProps, useId } from "react";
 import { ColorScheme } from "./ColorScheme";
 import { MD3StyleProvider } from "./MD3StyleProvider";
-import { MD3ScopedContextProvider } from "./MD3ScopedContextProvider";
+import { MD3ScopeContextProvider } from "./MD3ScopeContextProvider";
 import { murmur3 } from "./murmur3";
 
 export type MD3ProviderProps = ComponentProps<"div"> & {

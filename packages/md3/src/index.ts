@@ -5,7 +5,7 @@ import { ButtonRoot, ButtonIcon, ButtonLabel } from './components/Button';
 export * from './core/ColorScheme';
 export * from './core/MD3ComponentProps';
 export * from './core/MD3Provider';
-export { useMD3Context } from './core/MD3ScopedContextProvider';
+export { useMD3Context } from './core/MD3ScopeContextProvider';
 export * from './core/StateLayer';
 
 export const Button = Object.assign(ButtonRoot, {

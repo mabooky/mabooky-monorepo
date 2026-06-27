@@ -42,10 +42,11 @@ export function useMD3Context() {
     return context;
 }
 
-export type MD3ScopedContextProviderProps = ComponentProps<'div'> & {
+export type MD3ScopeContextProviderProps = ComponentProps<'div'> & {
     containerClassName: string;
     initialTheme: 'system' | 'light' | 'dark';
     initialContrast: 'system' | 'standard' | 'medium' | 'high';
+    iconStyle: 'outlined' | 'rounded' | 'sharp';
 };
 
 function resolveTheme(theme: 'system' | 'light' | 'dark'): 'light' | 'dark' {
@@ -80,15 +81,16 @@ function resolveContrast(
     }
 }
 
-export function MD3ScopedContextProvider({
+export function MD3ScopeContextProvider({
     ref,
     className,
     containerClassName,
     initialTheme,
     initialContrast,
+    iconStyle,
     children,
     ...props
-}: MD3ScopedContextProviderProps) {        
+}: MD3ScopeContextProviderProps) {        
     // resolveTheme과 resolveContrast 자체가 서버 환경에서는 fallback 값 반환!
     const [theme, setThemeState] = useState(initialTheme);
     const [resolvedTheme, setResolvedTheme] = useState(() => resolveTheme(initialTheme));
@@ -139,6 +141,7 @@ export function MD3ScopedContextProvider({
             {...props}
             data-theme={theme}
             data-contrast={contrast}
+            data-icon-style={iconStyle}
         >
             <MD3Context.Provider value={contextValue}>
                 {children}
