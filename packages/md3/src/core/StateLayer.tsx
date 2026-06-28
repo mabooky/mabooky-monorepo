@@ -1,13 +1,13 @@
 'use client';
 
 import clsx from "clsx";
-import { ComponentProps, useEffect, useRef } from "react";
+import { ComponentProps, Ref, RefObject, useEffect, useRef } from "react";
 
-function mergeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
+function mergeRefs<T>(...refs: (Ref<T> | undefined)[]) {
     return (node: T | null) => {
         for (const ref of refs) {
             if (typeof ref === "function") ref(node);
-            else if (ref) (ref as React.RefObject<T | null>).current = node;
+            else if (ref) (ref as RefObject<T | null>).current = node;
         }
     };
 }
@@ -22,7 +22,7 @@ export function StateLayer({
     ripple = false,
     ...props
 }: StateLayerProps) {
-    const layerRef = useRef<HTMLSpanElement>(null);
+    const layerRef = useRef<HTMLSpanElement | null>(null);
 
     useEffect(() => {
         if (!ripple) return;
