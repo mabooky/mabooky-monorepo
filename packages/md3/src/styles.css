@@ -2,9 +2,9 @@
 @import "./tokens/shape.css";
 @import "./tokens/typography.css";
 
-@import "./core/material-symbols-hack.css";
 @import "./core/interactive.css";
 @import "./core/shadow-elevation.css";
 
-@import "./components/icon.css";
+@import "./components/badge.css";
 @import "./components/button.css";
+@import "./components/icon.css";

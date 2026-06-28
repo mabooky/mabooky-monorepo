@@ -1,0 +1,31 @@
+@layer md3-components {
+    @layer base {
+        .md3-badge {
+            display: inline-flex;
+            background-color: var(--md-sys-color-error);
+        }
+
+        .md3-badge[data-variant="small"] {
+            width: calc(6 / 16 * 1rem);
+            height: calc(6 / 16 * 1rem);
+            border-radius: calc(3 / 16 * 1rem); /* fully rounded */
+        }
+
+        .md3-badge[data-variant="large"] {
+            min-width: calc(16 / 16 * 1rem);
+            height: calc(16 / 16 * 1rem);
+            padding-inline: calc(4 / 16 * 1rem);
+            border-radius: calc(8 / 16 * 1rem); /* fully rounded */
+            color: var(--md-sys-color-on-error);
+            font-family: var(--md-sys-typescale-label-small-font);
+            font-weight: var(--md-sys-typescale-label-small-weight);
+            font-size: var(--md-sys-typescale-label-small-size);
+            letter-spacing: var(--md-sys-typescale-label-small-tracking);
+            line-height: var(--md-sys-typescale-label-small-line-height);
+            user-select: none;
+            -webkit-user-select: none;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
