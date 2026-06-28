@@ -1,6 +1,6 @@
 @layer md3-components {
     /* Layer 1: 공통 및 기본 스타일 */
-    @layer {
+    @layer base {
         .md3-button {
             --_color-key:                  unset;
             --_color-on-key:               unset;
@@ -236,7 +236,7 @@
     }
 
     /* Layer 2: 토글 버튼인 경우의 선택 여부별 스타일 */
-    @layer {
+    @layer toggle {
         /*
         +----------+------------+-------------------+------------------------+--------------------+
         |  variant |  selection |  container color  | container border color | icon & label color |
@@ -319,7 +319,7 @@
     }
 
     /* Layer 3: pressed 스타일 (상태 레이어 색상은 알아서 변하므로 버튼을 눌렀을 때 모양 변화만 기술) */
-    @layer {
+    @layer pressed {
         /*
         +------+-----------------+
         | size |  shape pressed  |
@@ -347,7 +347,7 @@
     }
 
     /* Layer 4: disabled 스타일 */
-    @layer {
+    @layer disabled {
         .md3-button[aria-disabled="true"] {
             pointer-events: none;
         }
