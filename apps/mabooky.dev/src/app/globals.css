@@ -1,7 +1,8 @@
 @layer theme, base, components, md3-tokens, md3-core, md3-components, utilities;
 
 @import "tailwindcss";
-@import "@mabooky/md3/tailwind";
+@import "@mabooky/md3/styles.css";
+@import "@mabooky/md3/tailwind.css";
 
 @import "./tokens/typography.css";
 
