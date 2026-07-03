@@ -10,7 +10,7 @@ const contents = [
         description: "md3 라이브러리에서 Material Design 3의 색상 시스템을 구현한 방법과 아키텍처에 대해 설명합니다.",
         tags: ["Design", "Material_Design", "MD3Provider"],
         date: "2026-06-02",
-        image: 'Gemini_Generated_Image_djv1w5djv1w5djv1.png',
+        image: 'Gemini_Generated_Image_djv1w5djv1w5djv1.webp',
     },
     {
         type: 'work',
@@ -19,7 +19,7 @@ const contents = [
         description: '이 부활의 소식을 전해야 한다. 지금, 당장.',
         tags: ['Game', 'Easter'],
         date: '2026-03-27',
-        image: 'the-mary-run-screenshot.png',
+        image: 'the-mary-run-screenshot.webp',
     }
 ];
 
