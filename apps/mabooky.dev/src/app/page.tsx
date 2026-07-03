@@ -12,15 +12,15 @@ const contents = [
         date: "2026-06-02",
         image: 'Gemini_Generated_Image_djv1w5djv1w5djv1.png',
     },
-    // {
-    //     type: 'work',
-    //     id: 'the-mary-run',
-    //     title: 'The Mary Run',
-    //     description: '이 부활의 소식을 전해야 한다. 지금, 당장.',
-    //     tags: ['Game', 'Easter'],
-    //     date: '2026-03-27',
-    //     image: 'the-mary-run-screenshot.png',
-    // }
+    {
+        type: 'work',
+        id: 'the-mary-run',
+        title: 'The Mary Run',
+        description: '이 부활의 소식을 전해야 한다. 지금, 당장.',
+        tags: ['Game', 'Easter'],
+        date: '2026-03-27',
+        image: 'the-mary-run-screenshot.png',
+    }
 ];
 
 export default function HomePage() {
@@ -86,7 +86,7 @@ export default function HomePage() {
 
                             <Link
                                 aria-label={content.title}
-                                href={/* `/${content.type}s/${content.id}` */`/`}
+                                href={`/${content.type}s/${content.id}`}
                                 className="md3-state-source relative w-full rounded-xl
                                     flex flex-col bg-surface-container-high text-on-surface">
 
