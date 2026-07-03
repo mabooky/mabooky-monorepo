@@ -1,5 +1,3 @@
-import './styles.css';
-
 /* ---------------------------------- core ---------------------------------- */
 export * from './core/ColorScheme';
 export * from './core/propMixins';
