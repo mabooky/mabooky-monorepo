@@ -1,0 +1,11 @@
+@layer md3-components {
+    @layer base {
+        .md3-divider {
+            margin: 0;
+            border: none;
+            flex-shrink: 0;
+            height: calc(1 / 16 * 1rem);
+            background-color: var(--md-sys-color-outline-variant);
+        }
+    }
+}
