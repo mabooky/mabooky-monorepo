@@ -1,10 +1,10 @@
-export type MD3ComponentProps = {
+export type MD3ContainerProps = {
     containerStyle?: React.CSSProperties;
     containerClassName?: string;
 };
 
-export type MD3InteractiveComponentProps = MD3ComponentProps & {
+export type MD3StateLayerProps = {
     stateLayerStyle?: React.CSSProperties;
     stateLayerClassName?: string;
     ripple?: boolean;
-}
+};

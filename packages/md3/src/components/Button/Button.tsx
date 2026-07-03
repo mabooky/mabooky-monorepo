@@ -3,11 +3,11 @@
 import { Slot, Slottable } from "@radix-ui/react-slot";
 import clsx from "clsx";
 import { ComponentProps } from "react";
-import { StateLayer } from "../core/StateLayer";
-import { Icon, IconProps } from "./Icon";
-import { MD3InteractiveComponentProps } from "../core/MD3ComponentProps";
+import { StateLayer } from "../../core/StateLayer";
+import { Icon, IconProps } from "../Icon";
+import { MD3ContainerProps, MD3StateLayerProps } from "../../core/propMixins";
 
-export type ButtonProps = ComponentProps<'button'> & MD3InteractiveComponentProps & {
+export type ButtonProps = ComponentProps<'button'> & MD3ContainerProps & MD3StateLayerProps & {
     asChild?: boolean;
     size?: "xs" | "sm" | "md" | "lg" | "xl";
     shape?: "round" | "square";
@@ -17,12 +17,10 @@ export type ButtonProps = ComponentProps<'button'> & MD3InteractiveComponentProp
 };
 
 export function ButtonRoot({
-    // ⬇️ MD3InteractiveComponentProps
-    ripple = false,
-
     ref,
     className,
     children,
+    ripple = false,
     asChild = false,
     size = "sm",
     shape = "round",
