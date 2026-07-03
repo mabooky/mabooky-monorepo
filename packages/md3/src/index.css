@@ -5,6 +5,6 @@
 @import "./core/interactive.css";
 @import "./core/shadow-elevation.css";
 
-@import "./components/badge.css";
-@import "./components/button.css";
-@import "./components/icon.css";
+@import "./components/Badge/Badge.css";
+@import "./components/Button/Button.css";
+@import "./components/Icon/Icon.css";
