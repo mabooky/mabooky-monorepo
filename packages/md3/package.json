@@ -5,10 +5,11 @@
   "main": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./tailwind": "./src/tailwind/index.css"
+    "./styles.css": "./src/index.css",
+    "./tailwind.css": "./src/tailwind/index.css"
   },
   "sideEffects": [
-    "./src/styles.css",
+    "./src/index.css",
     "./src/tailwind/index.css"
   ],
   "scripts": {
