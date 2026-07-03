@@ -22,13 +22,13 @@ export function ButtonRoot({
 
     ref,
     className,
+    children,
     asChild = false,
     size = "sm",
     shape = "round",
     variant = "filled",
     color,
     selected,
-    children,
     ...props
 }: ButtonProps) {
     const Comp = asChild ? Slot : "button";
@@ -53,19 +53,28 @@ export function ButtonRoot({
     );
 }
 
-type ButtonIconProps =
+export type ButtonIconProps =
     | ({ asChild?: false } & IconProps)
     | ({ asChild: true } & ComponentProps<"span">);
 
-export function ButtonIcon({ asChild, className, ...props }: ButtonIconProps) {
+function ButtonIcon({ asChild, className, ...props }: ButtonIconProps) {
     if (asChild) {
         return <Slot className={clsx("md3-button__icon", className)} {...(props as ComponentProps<"span">)} />;
     }
     return <Icon className={clsx("md3-button__icon", className)} {...(props as IconProps)} />;
 };
 
-export function ButtonLabel({ className, ...props }: ComponentProps<"span">) {
+export type ButtonLabelProps = ComponentProps<"span">;
+
+function ButtonLabel({ className, ...props }: ButtonLabelProps) {
     return (
         <span className={clsx("md3-button__label", className)} {...props} />
     );
 }
+
+/* -------------------------------------------------------------------------- */
+
+export const Button = Object.assign(ButtonRoot, {
+    Icon: ButtonIcon,
+    Label: ButtonLabel,
+});
