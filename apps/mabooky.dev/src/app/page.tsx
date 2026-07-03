@@ -87,7 +87,7 @@ export default function HomePage() {
                             <Link
                                 aria-label={content.title}
                                 href={/* `/${content.type}s/${content.id}` */`/`}
-                                className="md3-interactive relative w-full rounded-xl
+                                className="md3-state-source relative w-full rounded-xl
                                     flex flex-col bg-surface-container-high text-on-surface">
 
                                 {/* 컨텐츠 이미지 */}
