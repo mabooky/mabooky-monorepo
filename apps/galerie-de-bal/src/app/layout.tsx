@@ -18,6 +18,7 @@ export default function RootLayout({
             className="w-full h-full"
         >
             <head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
             </head>
             <body className="w-full h-full flex flex-col m-0 p-0">
@@ -25,7 +26,7 @@ export default function RootLayout({
                     colorScheme={ColorScheme.fromSourceColorArgb(0xffe6c27a)}
                     theme="dark"
                 >
-                    <div className="bg-surface">
+                    <div className="w-full h-full bg-surface">
                         {children}
                     </div>
                 </MD3Provider>

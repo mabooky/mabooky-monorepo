@@ -1,9 +1,9 @@
-import LandingScreen from "@/components/ui/LandingScreen/LandingScreen";
+import LandingScreen from "./LandingScreen";
 
 export default function Home() {
-  return (
-    <main>
-      <LandingScreen />
-    </main>
-  );
+    return (
+        <main>
+            <LandingScreen />
+        </main>
+    );
 }
