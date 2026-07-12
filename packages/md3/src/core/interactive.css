@@ -1,7 +1,7 @@
 @layer md3-core {
-    .md3-state-source {
-        position: relative;
-        outline: none;
+    :is(button, a):has(> .md3-state-layer) {
+        position: relative; /* State layer의 기준점 역할 */
+        outline: none; /* 기본 focus outline 제거 */
 
         &:hover > .md3-state-layer {
             background-color: color-mix(in oklab, currentcolor 8%, transparent);
