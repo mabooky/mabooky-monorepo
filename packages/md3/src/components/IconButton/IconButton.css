@@ -1,0 +1,231 @@
+@layer md3-components {
+    @layer base {
+        .md3-icon-button {
+            --_color-key:                  unset;
+            --_color-on-key:               unset;
+            --_color-key-container:        unset;
+            --_color-on-key-container:     unset;
+            --_border-radius: unset;
+
+            &[data-color="primary"] {
+                --_color-key: var(--md-sys-color-primary);
+                --_color-on-key: var(--md-sys-color-on-primary);
+                --_color-key-container: var(--md-sys-color-primary-container);
+                --_color-on-key-container: var(--md-sys-color-on-primary-container);
+            }
+            &[data-color="secondary"] {
+                --_color-key: var(--md-sys-color-secondary);
+                --_color-on-key: var(--md-sys-color-on-secondary);
+                --_color-key-container: var(--md-sys-color-secondary-container);
+                --_color-on-key-container: var(--md-sys-color-on-secondary-container);
+            }
+            &[data-color="tertiary"] {
+                --_color-key: var(--md-sys-color-tertiary);
+                --_color-on-key: var(--md-sys-color-on-tertiary);
+                --_color-key-container: var(--md-sys-color-tertiary-container);
+                --_color-on-key-container: var(--md-sys-color-on-tertiary-container);
+            }
+
+            position: relative;
+            width: fit-content;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .md3-icon-button__container {
+            position: absolute;
+            inset: 0;
+            box-sizing: border-box;
+            border-radius: var(--_border-radius);
+            border-style: solid;
+            transition:
+                border-radius var(--md-sys-motion-spring-fast-spatial),
+                background-color var(--md-sys-motion-spring-fast-effects),
+                color var(--md-sys-motion-spring-fast-effects);
+        }
+
+        .md3-icon-button__icon {
+            position: relative;
+            transition: color var(--md-sys-motion-spring-fast-effects);
+        }
+
+        .md3-icon-button__state-layer {
+            border-radius: var(--_border-radius);
+            transition: border-radius var(--md-sys-motion-spring-fast-spatial);
+        }
+
+        .md3-icon-button[data-variant="filled"] {
+            > .md3-icon-button__container { 
+                background-color: var(--_color-key, var(--md-sys-color-primary));
+                border-color: transparent;
+            }
+            color: var(--_color-on-key, var(--md-sys-color-on-primary));
+        }
+
+        .md3-icon-button[data-variant="tonal"] {
+            > .md3-icon-button__container { 
+                background-color: var(--_color-key-container, var(--md-sys-color-secondary-container));
+                border-color: transparent;
+            }
+            color: var(--_color-on-key-container, var(--md-sys-color-on-secondary-container));
+        }
+
+        .md3-icon-button[data-variant="outlined"] {
+            > .md3-icon-button__container { border-color: var(--md-sys-color-outline-variant); }
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .md3-icon-button[data-variant="standard"] {
+            > .md3-icon-button__container { border-color: transparent; }
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .md3-icon-button[data-size="xs"] {
+            height: calc(32 / 16 * 1rem);
+            > .md3-icon-button__icon { font-size: calc(20 / 16 * 1rem); }
+            &[data-width="narrow"] { padding-inline: calc(4 / 16 * 1rem); }
+            &[data-width="default"] { padding-inline: calc(6 / 16 * 1rem); }
+            &[data-width="wide"] { padding-inline: calc(10 / 16 * 1rem); }
+            &[data-shape="round"] { --_border-radius: calc(16 / 16 * 1rem); } /* fully rounded */
+            &[data-shape="square"] { --_border-radius: var(--md-sys-shape-corner-medium); }
+            > .md3-icon-button__container { border-width: calc(1 / 16 * 1rem); }
+        }
+
+        .md3-icon-button[data-size="sm"] {
+            height: calc(40 / 16 * 1rem);
+            > .md3-icon-button__icon { font-size: calc(24 / 16 * 1rem); }
+            &[data-width="narrow"] { padding-inline: calc(4 / 16 * 1rem); }
+            &[data-width="default"] { padding-inline: calc(8 / 16 * 1rem); }
+            &[data-width="wide"] { padding-inline: calc(14 / 16 * 1rem); }
+            &[data-shape="round"] { --_border-radius: calc(20 / 16 * 1rem); } /* fully rounded */
+            &[data-shape="square"] { --_border-radius: var(--md-sys-shape-corner-medium); }
+            > .md3-icon-button__container { border-width: calc(1 / 16 * 1rem); }
+        }
+
+        .md3-icon-button[data-size="md"] {
+            height: calc(56 / 16 * 1rem);
+            > .md3-icon-button__icon { font-size: calc(24 / 16 * 1rem); }
+            &[data-width="narrow"] { padding-inline: calc(12 / 16 * 1rem); }
+            &[data-width="default"] { padding-inline: calc(16 / 16 * 1rem); }
+            &[data-width="wide"] { padding-inline: calc(24 / 16 * 1rem); }
+            &[data-shape="round"] { --_border-radius: calc(28 / 16 * 1rem); } /* fully rounded */
+            &[data-shape="square"] { --_border-radius: var(--md-sys-shape-corner-large); }
+            > .md3-icon-button__container { border-width: calc(1 / 16 * 1rem); }
+        }
+
+        .md3-icon-button[data-size="lg"] {
+            height: calc(96 / 16 * 1rem);
+            > .md3-icon-button__icon { font-size: calc(32 / 16 * 1rem); }
+            &[data-width="narrow"] { padding-inline: calc(16 / 16 * 1rem); }
+            &[data-width="default"] { padding-inline: calc(32 / 16 * 1rem); }
+            &[data-width="wide"] { padding-inline: calc(48 / 16 * 1rem); }
+            &[data-shape="round"] { --_border-radius: calc(48 / 16 * 1rem); } /* fully rounded */
+            &[data-shape="square"] { --_border-radius: var(--md-sys-shape-corner-extra-large); }
+            > .md3-icon-button__container { border-width: calc(2 / 16 * 1rem); }
+        }
+
+        .md3-icon-button[data-size="xl"] {
+            height: calc(136 / 16 * 1rem);
+            > .md3-icon-button__icon { font-size: calc(40 / 16 * 1rem); }
+            &[data-width="narrow"] { padding-inline: calc(32 / 16 * 1rem); }
+            &[data-width="default"] { padding-inline: calc(48 / 16 * 1rem); }
+            &[data-width="wide"] { padding-inline: calc(72 / 16 * 1rem); }
+            &[data-shape="round"] { --_border-radius: calc(68 / 16 * 1rem); } /* fully rounded */
+            &[data-shape="square"] { --_border-radius: var(--md-sys-shape-corner-extra-large); }
+            > .md3-icon-button__container { border-width: calc(3 / 16 * 1rem); }
+        }
+    }
+
+    @layer toggle {
+        /*
+        +----------+------------+-------------------+--------------------+
+        |  variant |  selection |  container color  |     icon color     |
+        +==========+============+===================+====================+
+        |  filled  | unselected | surface-container | on-surface-variant |
+        +----------+------------+-------------------+--------------------+
+        |   tonal  |  selected  |     secondary     |    on-secondary    |
+        +----------+------------+-------------------+--------------------+
+        | outlined |  selected  |  inverse-surface  | inverse-on-surface |
+        |          |            |    (no outline)   |                    |
+        +----------+------------+-------------------+--------------------+
+        | standard |  selected  |         -         |       primary      |
+        +----------+------------+-------------------+--------------------+
+        selection이 명시되지 않은 경우 기본 스타일을 그대로 활용한다.
+        특히 outlined variant의 경우 기본 스타일에서 border-color를 정의하므로 선택 시에 투명 처리해야 한다.
+        */
+        .md3-icon-button[data-variant="filled"][aria-pressed="false"] {
+            > .md3-icon-button__container { background-color: var(--md-sys-color-surface-container); }
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .md3-icon-button[data-variant="tonal"][aria-pressed="true"] {
+            > .md3-icon-button__container { background-color: var(--md-sys-color-secondary); }
+            color: var(--md-sys-color-on-secondary);
+        }
+
+        .md3-icon-button[data-variant="outlined"][aria-pressed="true"] {
+            > .md3-icon-button__container { 
+                background-color: var(--md-sys-color-inverse-surface); 
+                border-color: transparent; 
+            }
+            color: var(--md-sys-color-inverse-on-surface);
+        }
+
+        .md3-icon-button[data-variant="standard"][aria-pressed="true"] {
+            color: var(--md-sys-color-primary);
+        }
+
+        .md3-icon-button[data-size="xs"][aria-pressed="true"] {
+            &[data-shape="round"] { --_border-radius: var(--md-sys-shape-corner-medium); }
+            &[data-shape="square"] { --_border-radius: calc(16 / 16 * 1rem); } /* fully rounded */
+        }
+
+        .md3-icon-button[data-size="sm"][aria-pressed="true"] {
+            &[data-shape="round"] { --_border-radius: var(--md-sys-shape-corner-medium); }
+            &[data-shape="square"] { --_border-radius: calc(20 / 16 * 1rem); } /* fully rounded */
+        }
+
+        .md3-icon-button[data-size="md"][aria-pressed="true"] {
+            &[data-shape="round"] { --_border-radius: var(--md-sys-shape-corner-large); }
+            &[data-shape="square"] { --_border-radius: calc(28 / 16 * 1rem); } /* fully rounded */
+        }
+
+        .md3-icon-button[data-size="lg"][aria-pressed="true"] {
+            &[data-shape="round"] { --_border-radius: var(--md-sys-shape-corner-extra-large); }
+            &[data-shape="square"] { --_border-radius: calc(48 / 16 * 1rem); } /* fully rounded */
+        }
+
+        .md3-icon-button[data-size="xl"][aria-pressed="true"] {
+            &[data-shape="round"] { --_border-radius: var(--md-sys-shape-corner-extra-large); }
+            &[data-shape="square"] { --_border-radius: calc(68 / 16 * 1rem); } /* fully rounded */
+        }
+    }
+
+    @layer pressed {
+        .md3-icon-button[data-size="xs"]:active, .md3-icon-button[data-size="sm"]:active {
+            --_border-radius: var(--md-sys-shape-corner-small);
+        }
+        .md3-icon-button[data-size="md"]:active {
+            --_border-radius: var(--md-sys-shape-corner-medium);
+        }
+        .md3-icon-button[data-size="lg"]:active, .md3-icon-button[data-size="xl"]:active {
+            --_border-radius: var(--md-sys-shape-corner-large);
+        }
+    }
+
+    @layer disabled {
+        /* unselected의 경우 기본 스타일에 이미 border-color가 정의되어 있으며, selected의 경우
+        Layer 2에서 border-color가 투명 처리되므로 기존 공통 로직을 함께 적용해도 무방하다. */
+        .md3-icon-button[aria-disabled="true"] {
+            pointer-events: none;
+            
+
+            & > .md3-icon-button__container {
+                background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
+            }
+            color: color-mix(in oklab, var(--md-sys-color-on-surface) 38%, transparent);
+        }
+    }
+}
