@@ -66,22 +66,21 @@ export function ArtworkSlide({ artwork, isDocentVisible, onToggleDocent }: Artwo
                     '--_x_art-translated': `calc(-1 * (50dvw - 50%) + (100dvw - 400 / 16 * 1rem) / 2 - var(--_w_art-scaled) / 2)`,
                 } as CSSProperties}
                 className={clsx(
-                    `relative flex flex-col justify-center items-center gap-2 transition-[translate,scale] duration-[1.5s]
-                    origin-top expanded:origin-left
-                    max-expanded:data-[transformed=true]:translate-y-(--_y_art-translated)
-                    max-expanded:data-[transformed=true]:scale-(--_h_art-scale)
-                    expanded:data-[transformed=true]:translate-x-(--_x_art-translated)
-                    expanded:data-[transformed=true]:scale-(--_w_art-scale)`,
+                    "relative flex flex-col justify-center items-center gap-2 transition-[translate,scale] duration-[1.5s]",
+                    "origin-top expanded:origin-left -translate-y-13",
+                    "max-expanded:data-[transformed=true]:translate-y-(--_y_art-translated)",
+                    "max-expanded:data-[transformed=true]:scale-(--_h_art-scale)",
+                    "expanded:data-[transformed=true]:translate-x-(--_x_art-translated)",
+                    "expanded:data-[transformed=true]:scale-(--_w_art-scale)",
                 )}
                 data-transformed={isDocentVisible}
             >
                 <div className="picture-frame">
                     <img
-                        // @ts-expect-error: WebkitUserDrag 속성이 없다고 나옴
-                        style={{ WebkitUserDrag: 'none' }}
                         className="max-w-[80dvw] max-h-[50dvh] object-contain select-none cursor-pointer"
                         src={artwork.imageUrl}
                         alt={artwork.title}
+                        draggable="false"
                         onClick={onToggleDocent}
                     />
                 </div>

@@ -30,7 +30,7 @@ export default function RootLayout({
                         {children}
                     </div>
                 </MD3Provider>
-                <audio loop preload="none" src="/nocturne-op9-no2.mp3" autoPlay />
+                <audio loop preload="auto" src="/nocturne-op9-no2.mp3" />
             </body>
         </html>
     );

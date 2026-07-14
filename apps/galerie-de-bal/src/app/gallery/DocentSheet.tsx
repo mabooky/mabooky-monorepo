@@ -27,11 +27,7 @@ function DocentContent({ artwork }: { artwork: Artwork }) {
                 {artwork.metadata.width} x {artwork.metadata.height} px, {artwork.metadata.fileSize}
             </p>
 
-            <Divider className="mt-4" />
-
-            {artwork.docentAudioUrl && (
-                <audio src={artwork.docentAudioUrl} controls className="mt-8 w-full" />
-            )}
+            <Divider className="mt-8" />
 
             <p className="mt-8 text-body-large whitespace-pre-line">{artwork.docent}</p>
         </>
@@ -152,7 +148,7 @@ function DocentSheetBottom({ artwork, isVisible, onDismiss }: { artwork: Artwork
                 <span className="w-8 h-1 rounded-full bg-inverse-on-surface" />
             </div>
 
-            <div className="px-6 pb-6">
+            <div className="px-6 pb-24">
                 <DocentContent artwork={artwork} />
             </div>
         </div>
