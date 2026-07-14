@@ -7,13 +7,14 @@ import { StateLayer } from "../../core/StateLayer";
 import { Icon, IconProps } from "../Icon";
 import { MD3ContainerProps, MD3StateLayerProps } from "../../core/propMixins";
 
-export type ButtonProps = ComponentProps<'button'> & MD3ContainerProps & MD3StateLayerProps & {
+export type ButtonProps = Omit<ComponentProps<'button'>, 'color' | 'disabled'> & MD3ContainerProps & MD3StateLayerProps & {
     asChild?: boolean;
     size?: "xs" | "sm" | "md" | "lg" | "xl";
     shape?: "round" | "square";
     variant?: "elevated" | "filled" | "tonal" | "outlined" | "text";
     color?: 'primary' | 'secondary' | 'tertiary';
     selected?: boolean;
+    disabled?: boolean;
 };
 
 export function ButtonRoot({
@@ -27,11 +28,10 @@ export function ButtonRoot({
     variant = "filled",
     color,
     selected,
+    disabled,
     ...props
 }: ButtonProps) {
     const Comp = asChild ? Slot : "button";
-    const isToggle = selected !== undefined;
-    const overridesColor = color !== undefined;
 
     return (
         <Comp
@@ -40,8 +40,9 @@ export function ButtonRoot({
             data-size={size}
             data-shape={shape}
             data-variant={variant}
-            data-color={overridesColor ? color : undefined}
-            aria-pressed={isToggle ? selected : undefined}
+            data-color={color}
+            aria-pressed={selected}
+            aria-disabled={disabled}
             {...props}
         >
             <span className="md3-button__container" />
