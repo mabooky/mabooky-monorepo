@@ -3,17 +3,20 @@
         position: relative; /* State layer의 기준점 역할 */
         outline: none; /* 기본 focus outline 제거 */
 
-        &:hover > .md3-state-layer {
+        &:hover:not([aria-disabled="true"]) > .md3-state-layer {
             background-color: color-mix(in oklab, currentcolor 8%, transparent);
         }
 
         &:focus-visible > .md3-state-layer {
-            background-color: color-mix(in oklab, currentcolor 10%, transparent);
             outline: var(--md-sys-color-secondary) solid 3px;
             outline-offset: 3px;
         }
 
-        &:active > .md3-state-layer:not([data-ripple="true"]) {
+        &:focus-visible:not([aria-disabled="true"]) > .md3-state-layer {
+            background-color: color-mix(in oklab, currentcolor 10%, transparent);
+        }
+
+        &:active([aria-disabled="true"]) > .md3-state-layer:not([data-ripple="true"]) {
             background-color: color-mix(in oklab, currentcolor 10%, transparent);
         }
     }
