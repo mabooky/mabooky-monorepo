@@ -1,35 +1,42 @@
-import { useEffect, useRef, useState } from "react";
+import { ComponentProps, useEffect, useRef, useState } from "react";
 import { Button, IconButton } from "@mabooky/md3";
 import clsx from "clsx";
+import { useBgm } from "../BgmProvider";
 
-export type DocentRemoteProps = {
+export type DocentRemoteProps = ComponentProps<'div'> & {
     currentIndex: number;
     totalCount: number;
     audioUrl?: string | null;
     onPrev: () => void;
     onNext: () => void;
-    className?: string;
 };
 
 export function DocentRemote({
+    className,
     currentIndex,
     totalCount,
     audioUrl,
     onPrev,
     onNext,
-    className,
 }: DocentRemoteProps) {
     const audioRef = useRef<HTMLAudioElement>(null);
+    const playBackTimesRef = useRef<Map<string, number>>(new Map());
     const [isPlaying, setIsPlaying] = useState(false);
+    const { duckVolume, restoreVolume } = useBgm();
 
-    // "공간 제약" 룰: 오디오 URL이 바뀌면(작품을 넘기면) 즉각 정지
     useEffect(() => {
         setIsPlaying(false);
         if (audioRef.current) {
             audioRef.current.pause();
-            audioRef.current.currentTime = 0;
         }
-    }, [audioUrl]);
+        restoreVolume();
+    }, [audioUrl, restoreVolume]);
+
+    useEffect(() => {
+        return () => {
+            restoreVolume();
+        };
+    }, [restoreVolume]);
 
     const toggleAudio = () => {
         if (!audioRef.current || !audioUrl) return;
@@ -37,16 +44,26 @@ export function DocentRemote({
         if (isPlaying) {
             audioRef.current.pause();
             setIsPlaying(false);
+            restoreVolume();
         } else {
             audioRef.current.play().catch(console.error);
             setIsPlaying(true);
+            duckVolume();
         }
     };
+
+    const stopAudio = () => {
+        if (!audioRef.current) return;
+
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        setIsPlaying(false);
+    }
 
     return (
         <div 
             className={clsx(
-                "z-30 w-max h-16 p-2 flex items-center gap-1",
+                "w-max h-16 p-2 flex items-center gap-1",
                 "rounded-full bg-surface-container shadow-(--md3-shadow-elevation-level3)",
                 className
             )}
@@ -68,6 +85,13 @@ export function DocentRemote({
                 <Button.Label>해설 재생</Button.Label>
             </Button>
 
+            <IconButton
+                variant="filled"
+                onClick={stopAudio}
+            >
+                <IconButton.Icon>stop</IconButton.Icon>
+            </IconButton>
+
             <span className="text-label-large tabular-nums font-medium px-2 min-w-[3rem] text-center text-on-surface">
                 {currentIndex + 1} / {totalCount}
             </span>
@@ -84,7 +108,21 @@ export function DocentRemote({
                 <audio 
                     ref={audioRef} 
                     src={audioUrl} 
-                    onEnded={() => setIsPlaying(false)} 
+                    onTimeUpdate={() => {
+                        if (audioRef.current) {
+                            playBackTimesRef.current.set(audioUrl, audioRef.current.currentTime);
+                        }
+                    }}
+                    onLoadedMetadata={() => {
+                        if (audioRef.current) {
+                            audioRef.current.currentTime = playBackTimesRef.current.get(audioUrl) || 0;
+                        }
+                    }}
+                    onEnded={() => {
+                        setIsPlaying(false);
+                        restoreVolume();
+                        playBackTimesRef.current.set(audioUrl, 0);
+                    }} 
                 />
             )}
         </div>

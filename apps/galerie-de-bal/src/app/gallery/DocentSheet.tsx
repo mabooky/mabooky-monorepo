@@ -1,38 +1,9 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { Divider } from "@mabooky/md3";
+import { Divider, IconButton } from "@mabooky/md3";
 import clsx from "clsx";
 import { type Artwork } from "@/types/artwork";
-
-/* -------------------------------------------------------------------------- */
-/*  DocentContent                                                             */
-/* -------------------------------------------------------------------------- */
-
-function DocentContent({ artwork }: { artwork: Artwork }) {
-    return (
-        <>
-            <h3 className="text-emphasized-display-small break-keep">{artwork.title}</h3>
-            <p className="mt-2 text-body-large"><i>{artwork.titleEng}</i></p>
-            <p className="mt-4 text-title-small">
-                {artwork.artist.name} (b. {artwork.artist.birthYear})
-            </p>
-            <p className="mt-1 text-title-small">
-                {artwork.creationYear}
-            </p>
-            <p className="mt-1 text-title-small">
-                {artwork.medium}
-            </p>
-            <p className="mt-1 text-title-small">
-                {artwork.metadata.width} x {artwork.metadata.height} px, {artwork.metadata.fileSize}
-            </p>
-
-            <Divider className="mt-8" />
-
-            <p className="mt-8 text-body-large whitespace-pre-line">{artwork.docent}</p>
-        </>
-    );
-}
 
 /* -------------------------------------------------------------------------- */
 /*  DocentSheetBottom (Compact, Medium)                                       */
@@ -137,7 +108,7 @@ function DocentSheetBottom({ artwork, isVisible, onDismiss }: { artwork: Artwork
             onPointerUp={handlePointerUp}
             onPointerCancel={resetDrag}
             className={clsx(
-                "expanded:hidden absolute bottom-0 left-0 right-0 w-full h-2/3", 
+                "expanded:hidden absolute bottom-0 left-0 right-0 z-20 w-full h-2/3", 
                 isVisible ? 'translate-y-0' : 'translate-y-full',
                 "overflow-y-scroll bg-inverse-surface text-inverse-on-surface",
                 "scrollbar-track-transparent scrollbar-thumb-inverse-on-surface/30",
@@ -149,7 +120,24 @@ function DocentSheetBottom({ artwork, isVisible, onDismiss }: { artwork: Artwork
             </div>
 
             <div className="px-6 pb-24">
-                <DocentContent artwork={artwork} />
+                <h3 className="text-emphasized-headline-large break-keep">{artwork.title}</h3>
+                <p className="mt-2 text-body-large"><i>{artwork.titleEng}</i></p>
+                <p className="mt-4 text-title-small">
+                    {artwork.artist.name} (b. {artwork.artist.birthYear})
+                </p>
+                <p className="mt-1 text-title-small">
+                    {artwork.creationYear}
+                </p>
+                <p className="mt-1 text-title-small">
+                    {artwork.medium}
+                </p>
+                <p className="mt-1 text-title-small">
+                    {artwork.metadata.width} x {artwork.metadata.height} px, {artwork.metadata.fileSize}
+                </p>
+
+                <Divider className="mt-8" />
+
+                <p className="mt-8 text-body-large whitespace-pre-line">{artwork.docent}</p>
             </div>
         </div>
     );
@@ -163,18 +151,38 @@ function DocentSheetSide({ artwork, isVisible, onDismiss }: { artwork: Artwork; 
     return (
         <div
             className={clsx(
-                "hidden expanded:flex",
-                `absolute top-0 -right-100 w-100 h-full`,
-                `bg-inverse-surface text-inverse-on-surface overflow-x-hidden overflow-y-scroll
-                scrollbar-track-transparent scrollbar-thumb-inverse-on-surface/30
-                transition-[translate] duration-1500`,
+                "max-expanded:hidden absolute top-0 -right-100 w-100 h-full p-6",
+                "bg-inverse-surface text-inverse-on-surface overflow-x-hidden overflow-y-scroll",
+                "scrollbar-track-transparent scrollbar-thumb-inverse-on-surface/50 transition-[translate]", 
+                "duration-1500",
                 isVisible ? "-translate-x-full" : "translate-x-0",
+                "flex flex-col"
             )}
         >
-            {/* 레이아웃 재계산 방지용 Wrapper */}
-            <div className="min-w-100 h-fit p-6">
-                <DocentContent artwork={artwork} />
+            {/* 시트 헤더 */}
+            <div className="flex justify-between items-start gap-3">
+                <h3 className="text-emphasized-headline-large break-keep">{artwork.title}</h3>
+                <IconButton className="text-inverse-on-surface" variant="standard" onClick={onDismiss}>
+                    <IconButton.Icon>close</IconButton.Icon>
+                </IconButton>
             </div>
+            <p className="mt-2 text-body-large"><i>{artwork.titleEng}</i></p>
+            <p className="mt-4 text-title-small">
+                {artwork.artist.name} (b. {artwork.artist.birthYear})
+            </p>
+            <p className="mt-1 text-title-small">
+                {artwork.creationYear}
+            </p>
+            <p className="mt-1 text-title-small">
+                {artwork.medium}
+            </p>
+            <p className="mt-1 text-title-small">
+                {artwork.metadata.width} x {artwork.metadata.height} px, {artwork.metadata.fileSize}
+            </p>
+
+            <Divider className="mt-8" />
+
+            <p className="mt-8 text-body-large whitespace-pre-line">{artwork.docent}</p>
         </div>
     );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
 import "./styles.css";
 import { Artwork } from "@/types/artwork";
 import { DocentSheet } from "./DocentSheet";
@@ -51,13 +51,13 @@ export default function GalleryPage() {
     return (
         /* Window */
         <div
-            className="relative w-full h-full flex flex-col expanded:flex-row overflow-hidden"
+            className="relative w-full h-full overflow-hidden"
         >
             {/* Main Pane */}
             <main
                 /* after 요소를 사용하여 Spotlight Effect를 구현 */
                 className={clsx(
-                    "relative w-screen min-h-0 h-full",
+                    "relative w-full h-full",
                     "after:absolute after:inset-0 after:z-1 after:w-full after:h-full after:bg-[radial-gradient(circle_at_50%_0,#fff5d257_0%,#ffebbe1a_40%,#00000000_80%)] after:pointer-events-none"
                 )}
             >
@@ -77,30 +77,53 @@ export default function GalleryPage() {
 
                 </div>
 
-                {/* 인터랙션 안내 문구*/}
-                {/* <p
+                {/* 인터랙션 안내 문구 및 리모컨을 딱 맞게 감싸는 컨테이너 */}
+                <div 
                     style={{
-                        opacity: isDocentVisible ? 0 : 1,
-                        visibility: isDocentVisible ? "hidden" : "visible",
-                        transition: "opacity 1.5s, visibility 0s linear " + (isDocentVisible ? "1.5s" : "0s")
-                    }}
+                        // 기본 상태(0)
+                        '--x0': 'calc(50dvw - 50%)',
+                        
+                        // expanded 이상에서 사이드 시트가 열렸을 때의 상태(2)
+                        '--side-sheet_w': 'calc(400 / 16 * 1rem)',
+                        '--x2': 'calc((100dvw - var(--side-sheet_w)) / 2 - 50%)'
+                    } as CSSProperties}
                     className={clsx(
-                        "absolute w-max bottom-24 left-1/2 -translate-x-1/2 text-on-surface text-title-small text-center",
-                        "max-expanded:-translate-y-22",
+                        "absolute bottom-0 z-30 transition-[translate] duration-1500", 
+                        // 기본 상태(0)
+                        "translate-x-(--x0)",
+                        // expanded 이상에서 사이드 시트가 열렸을 때의 상태(2)
+                        "expanded:data-is-sheet-open:translate-x-(--x2)"
                     )}
+                    data-is-sheet-open={isDocentVisible ? true : undefined}
                 >
-                    작품 하단의 플레이트를 클릭하면 작품 정보와 해설을 확인할 수 있습니다.<br />
-                </p> */}
-            </main>
+                    {/* 인터랙션 안내 문구*/}
+                    <p
+                        style={{
+                            opacity: isDocentVisible ? 0 : 1,
+                            visibility: isDocentVisible ? "hidden" : "visible",
+                            transition: "opacity 1.5s, visibility 0s linear " + (isDocentVisible ? "1.5s" : "0s")
+                        }}
+                        className={clsx(
+                            "absolute w-max bottom-24 left-1/2 -translate-x-1/2 text-on-surface text-title-small text-center",
+                        )}
+                    >
+                        작품 하단의 플레이트를 클릭하면
+                        {/* medium 이상부터 공백을 표시하고 줄바꿈 제거 */}
+                        <span className="hidden medium:inline"> </span>
+                        <span className="medium:hidden"><br /></span>
+                        작품 정보와 해설을 확인할 수 있습니다.
+                    </p>
 
-            <DocentRemote 
-                className="absolute bottom-4 left-1/2 -translate-x-1/2"
-                currentIndex={currentIndex}
-                totalCount={artworks.length}
-                audioUrl={currentArt.docentAudioUrl}
-                onPrev={handlePrev}
-                onNext={handleNext}
-            />
+                    <DocentRemote
+                        className="absolute bottom-4 left-1/2 -translate-x-1/2"
+                        currentIndex={currentIndex}
+                        totalCount={artworks.length}
+                        audioUrl={currentArt.docentAudioUrl}
+                        onPrev={handlePrev}
+                        onNext={handleNext}
+                    /> 
+                </div>
+            </main>
 
             {/* Compact, Medium: Bottom Sheet / Expanded, Large, Extra Large: Side Sheet */}
             <DocentSheet artwork={currentArt} isVisible={isDocentVisible} onDismiss={() => setIsDocentVisible(false)} />
