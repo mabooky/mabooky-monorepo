@@ -49,6 +49,7 @@
         .md3-icon-button__icon {
             position: relative;
             transition: color var(--md-sys-motion-spring-fast-effects);
+            font-variation-settings: 'FILL' 1;
         }
 
         .md3-icon-button__state-layer {
@@ -139,6 +140,11 @@
     }
 
     @layer toggle {
+        .md3-icon-button[aria-pressed="false"] {
+            & > .md3-icon-button__icon {
+                font-variation-settings: 'FILL' 0;
+            }
+        }
         /*
         +----------+------------+-------------------+--------------------+
         |  variant |  selection |  container color  |     icon color     |
@@ -204,14 +210,17 @@
     }
 
     @layer pressed {
-        .md3-icon-button[data-size="xs"]:active, .md3-icon-button[data-size="sm"]:active {
-            --_border-radius: var(--md-sys-shape-corner-small);
-        }
-        .md3-icon-button[data-size="md"]:active {
-            --_border-radius: var(--md-sys-shape-corner-medium);
-        }
-        .md3-icon-button[data-size="lg"]:active, .md3-icon-button[data-size="xl"]:active {
-            --_border-radius: var(--md-sys-shape-corner-large);
+        /* not 선택자 활용하여 disabled 상태에서 키보드를 이용한 active 상태 활성화 제한 */
+        .md3-icon-button:not([aria-disabled="true"]) {
+            &[data-size="xs"]:active, &[data-size="sm"]:active {
+                --_border-radius: var(--md-sys-shape-corner-small);
+            }
+            &[data-size="md"]:active {
+                --_border-radius: var(--md-sys-shape-corner-medium);
+            }
+            &[data-size="lg"]:active, &[data-size="xl"]:active {
+                --_border-radius: var(--md-sys-shape-corner-large);
+            }
         }
     }
 
@@ -220,10 +229,14 @@
         Layer 2에서 border-color가 투명 처리되므로 기존 공통 로직을 함께 적용해도 무방하다. */
         .md3-icon-button[aria-disabled="true"] {
             pointer-events: none;
-            
 
             & > .md3-icon-button__container {
                 background-color: color-mix(in oklab, var(--md-sys-color-on-surface) 10%, transparent);
+            }
+            /* outlined 일반 버튼 및 선택되지 않은 토글 버튼, standard의 경우 container 없어야 하므로 따로 작성 */
+            &[data-variant="outlined"]:not([aria-pressed="true"]) > .md3-icon-button__container,
+            &[data-variant="standard"] > .md3-icon-button__container {
+                background-color: transparent;
             }
             color: color-mix(in oklab, var(--md-sys-color-on-surface) 38%, transparent);
         }
