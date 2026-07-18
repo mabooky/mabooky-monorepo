@@ -21,6 +21,10 @@ export function ButtonRoot({
     ref,
     className,
     children,
+    containerStyle,
+    containerClassName,
+    stateLayerStyle,
+    stateLayerClassName,
     ripple = false,
     asChild = false,
     size = "sm",
@@ -45,9 +49,13 @@ export function ButtonRoot({
             aria-disabled={disabled}
             {...props}
         >
-            <span className="md3-button__container" />
+            <span style={containerStyle} className={clsx("md3-button__container", containerClassName)} />
             <Slottable>{children}</Slottable>
-            <StateLayer className="md3-button__state-layer" ripple={ripple} />
+            <StateLayer 
+                style={stateLayerStyle}
+                className={clsx("md3-button__state-layer", stateLayerClassName)} 
+                ripple={ripple} 
+            />
         </Comp>
     );
 }
