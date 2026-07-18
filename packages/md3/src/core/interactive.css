@@ -16,7 +16,7 @@
             background-color: color-mix(in oklab, currentcolor 10%, transparent);
         }
 
-        &:active([aria-disabled="true"]) > .md3-state-layer:not([data-ripple="true"]) {
+        &:active:not([aria-disabled="true"]) > .md3-state-layer:not([data-ripple="true"]) {
             background-color: color-mix(in oklab, currentcolor 10%, transparent);
         }
     }
