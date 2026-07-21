@@ -1,0 +1,7 @@
+@theme inline {
+    --shadow-elevation-level1: var(--md3-shadow-elevation-level1);
+    --shadow-elevation-level2: var(--md3-shadow-elevation-level2);
+    --shadow-elevation-level3: var(--md3-shadow-elevation-level3);
+    --shadow-elevation-level4: var(--md3-shadow-elevation-level4);
+    --shadow-elevation-level5: var(--md3-shadow-elevation-level5);
+}
