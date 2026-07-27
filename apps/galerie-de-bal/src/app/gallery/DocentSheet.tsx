@@ -137,7 +137,7 @@ function DocentSheetBottom({ artwork, isVisible, onDismiss }: { artwork: Artwork
 
                 <Divider className="mt-8" />
 
-                <p className="mt-8 text-body-large whitespace-pre-line">{artwork.docent}</p>
+                <p className="mt-8 text-body-large whitespace-pre-line text-justify">{artwork.docent}</p>
             </div>
         </div>
     );
@@ -182,7 +182,7 @@ function DocentSheetSide({ artwork, isVisible, onDismiss }: { artwork: Artwork; 
 
             <Divider className="mt-8" />
 
-            <p className="mt-8 text-body-large whitespace-pre-line">{artwork.docent}</p>
+            <p className="mt-8 text-body-large whitespace-pre-line text-justify">{artwork.docent}</p>
         </div>
     );
 }
