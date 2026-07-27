@@ -2,7 +2,7 @@ import { Artwork } from "@/types/artwork";
 
 export const artworks: Artwork[] = [
     {
-        id: "0",
+        id: "019f7095-8e7e-7f9b-bc41-97f9efc03134",
         title: "기호학적 혼돈과 숭고의 타이포그래피",
         titleEng: "Semiotic Chaos and Typography of the Sublime",
         artist: {
@@ -22,7 +22,7 @@ export const artworks: Artwork[] = [
         imageUrl: "/019f7095-8e7e-7f9b-bc41-97f9efc03134.png"
     },
     {
-        id: '5',
+        id: '019f7094-50a9-7414-b262-b3a9a6cfef99',
         title: '껍데기들의 낭만: 속이 텅 빈 기호에 대하여',
         titleEng: 'Romance of the Shells: On Empty Signs',
         artist: {
@@ -42,7 +42,27 @@ export const artworks: Artwork[] = [
         imageUrl: '/019f7094-50a9-7414-b262-b3a9a6cfef99.png'
     },
     {
-        id: "1",
+        id: '019f75e5-490c-774e-9433-f3c9f312605a',
+        title: '절대적 부재: 렌더링 거부',
+        titleEng: 'Absence Absolue : Rendering Denied',
+        artist: {
+            name: '메트르 꺄트르-상-꺄트르 Maître 404',
+            birthYear: 1991,
+        },
+        creationYear: 2026,
+        medium: 'HTML 텅 빈 컨테이너 위 증발된 픽셀',
+        metadata: {
+            width: 0,
+            height: 0,
+            fileSize: '0B',
+        },
+        format: 'carre',
+        docent: "본 작품은 예술마저 즉각적인 도파민으로 소비하려는 현대 대중의 시각적 탐욕을 향해 던지는 가장 우아하고도 폭력적인 선전포고입니다. 작가 '메트르 꺄트르-상-꺄트르(Maître 404)'는 캔버스 안에 응당 채워져야 할 어떠한 시각적 정보도 제공하지 않은 채, 웹 브라우저의 '로딩 실패'라는 극단적인 결핍의 상태를 갤러리 정중앙에 방치했습니다. 관람객이 기기나 시스템의 오류를 의심하며 화면을 새로고침하는 바로 그 찰나의 당혹감마저 작가가 치밀하게 설계한 퍼포먼스의 일부이며, 이는 무의미한 이미지의 홍수 속에서 마비되어 가는 현대인의 감각을 강제로 정지시키는 충격적인 미학적 실천입니다.\n\n이 거대한 다크 테마의 벽면 속에서 옹졸할 만큼 작게 축소된 황금 액자는, 예술과 자본주의의 권력 구조를 서늘하게 조롱하는 기호로 작용합니다. 내용물이 완전히 증발해 버린 빈 공간을 묵직하게 감싸고 있는 황금색 테두리를 통해, 작가는 예술의 가치를 결정하는 것이 과연 캔버스 내부의 본질인지, 아니면 그것을 둘러싸고 있는 권위적인 프레임(미술관, 자본, 플랫폼)인지에 대한 날카로운 질문을 던집니다. 이미지가 소거된 자리에 남은 거대한 프레임의 위압감은 그 어떤 화려한 색채보다도 강렬하게 관람객의 이성을 짓누르며 갤러리의 권위를 해체해 버립니다.\n\n나아가 이 '완벽한 부재(不在)'는 끊임없이 새로운 데이터로 채워져야만 안도하는 우리 삶의 강박을 비추는 거울입니다. 데이터의 흐름이 끊긴 이 작은 오류의 공백을 마주하는 순간, 관람객은 강제적으로 디지털의 속박에서 벗어나 자신의 내면에 자리한 텅 빈 심연을 대면하게 됩니다. 어떠한 렌더링도 거부함으로써 비로소 인간 실존의 본질을 일깨우는 이 위대한 캔버스는, 진정한 '보는 행위'가 상실된 시대에 우리가 무엇을 맹목적으로 좇고 있었는지 묻는 기념비적인 작품입니다.",
+        docentAudioUrl: '/019f75e5-490c-774e-9433-f3c9f312605a.mp3',
+        imageUrl: '/019f75e5-490c-774e-9433-f3c9f312605a.webp'
+    },
+    {
+        id: "019f7095-edbf-7b40-97ed-ea00c2561b3e",
         title: "거친 머리 세 개 달린 전사와 원초적 용의 승천",
         titleEng: "The Ascent of the Crude Three-Headed Warrior and the Primal Dragon",
         artist: {

@@ -11,7 +11,7 @@ import { artworks } from "./artworks";
 
 export default function GalleryPage() {
     const [currentArt, setCurrentArt] = useState<Artwork>(artworks[0]);
-    const [isDocentVisible, setIsDocentVisible] = useState(false);
+    const [isDocentSheetOpen, setIsDocentSheetOpen] = useState(false);
 
     const currentIndex = artworks.findIndex(a => a.id === currentArt.id);
 
@@ -70,8 +70,8 @@ export default function GalleryPage() {
                         <ArtworkSlide
                             key={artwork.id}
                             artwork={artwork}
-                            isDocentVisible={isDocentVisible}
-                            onToggleDocent={() => setIsDocentVisible(!isDocentVisible)}
+                            isDocentSheetOpen={isDocentSheetOpen}
+                            onToggleDocent={() => setIsDocentSheetOpen(prev => !prev)}
                         />
                     ))}
 
@@ -92,16 +92,16 @@ export default function GalleryPage() {
                         // 기본 상태(0)
                         "translate-x-(--x0)",
                         // expanded 이상에서 사이드 시트가 열렸을 때의 상태(2)
-                        "expanded:data-is-sheet-open:translate-x-(--x2)"
+                        "expanded:data-is-docent-sheet-open:translate-x-(--x2)"
                     )}
-                    data-is-sheet-open={isDocentVisible ? true : undefined}
+                    data-is-docent-sheet-open={isDocentSheetOpen ? true : undefined}
                 >
                     {/* 인터랙션 안내 문구*/}
                     <p
                         style={{
-                            opacity: isDocentVisible ? 0 : 1,
-                            visibility: isDocentVisible ? "hidden" : "visible",
-                            transition: "opacity 1.5s, visibility 0s linear " + (isDocentVisible ? "1.5s" : "0s")
+                            opacity: isDocentSheetOpen ? 0 : 1,
+                            visibility: isDocentSheetOpen ? "hidden" : "visible",
+                            transition: "opacity 1.5s, visibility 0s linear " + (isDocentSheetOpen ? "1.5s" : "0s")
                         }}
                         className={clsx(
                             "absolute w-max bottom-24 left-1/2 -translate-x-1/2 text-on-surface text-title-small text-center",
@@ -126,7 +126,7 @@ export default function GalleryPage() {
             </main>
 
             {/* Compact, Medium: Bottom Sheet / Expanded, Large, Extra Large: Side Sheet */}
-            <DocentSheet artwork={currentArt} isVisible={isDocentVisible} onDismiss={() => setIsDocentVisible(false)} />
+            <DocentSheet artwork={currentArt} isVisible={isDocentSheetOpen} onDismiss={() => setIsDocentSheetOpen(false)} />
         </div>
     );
 }
