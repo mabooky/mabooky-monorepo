@@ -21,6 +21,6 @@ export type Artwork = {
     metadata: ArtworkMetadata;
     format: CanvasFormat;
     docent: string;
-    docentAudioUrl: string | null;
+    docentAudioUrl: string;
     imageUrl: string;
 };
