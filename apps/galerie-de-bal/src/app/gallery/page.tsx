@@ -54,13 +54,7 @@ export default function GalleryPage() {
             className="relative w-full h-full overflow-hidden"
         >
             {/* Main Pane */}
-            <main
-                /* after 요소를 사용하여 Spotlight Effect를 구현 */
-                className={clsx(
-                    "relative w-full h-full",
-                    "after:absolute after:inset-0 after:z-1 after:w-full after:h-full after:bg-[radial-gradient(circle_at_50%_0,#fff5d257_0%,#ffebbe1a_40%,#00000000_80%)] after:pointer-events-none"
-                )}
-            >
+            <main className="relative w-full h-full">
                 {/* Carousel */}
                 <div 
                     ref={carouselRef}
@@ -77,18 +71,18 @@ export default function GalleryPage() {
 
                 </div>
 
-                {/* 인터랙션 안내 문구 및 리모컨을 딱 맞게 감싸는 컨테이너 */}
+                {/* 인터랙션 안내 문구, 리모컨, 조명 translate용 컨테이너 */}
                 <div 
                     style={{
                         // 기본 상태(0)
                         '--x0': 'calc(50dvw - 50%)',
-                        
+
                         // expanded 이상에서 사이드 시트가 열렸을 때의 상태(2)
                         '--side-sheet_w': 'calc(400 / 16 * 1rem)',
-                        '--x2': 'calc((100dvw - var(--side-sheet_w)) / 2 - 50%)'
+                        '--x2': 'calc((100dvw - var(--side-sheet_w)) / 2 - 50%)',
                     } as CSSProperties}
                     className={clsx(
-                        "absolute bottom-0 z-30 transition-[translate] duration-1500", 
+                        "absolute inset-0 z-30 w-full h-full transition-[translate] duration-1500 pointer-events-none", 
                         // 기본 상태(0)
                         "translate-x-(--x0)",
                         // expanded 이상에서 사이드 시트가 열렸을 때의 상태(2)
@@ -104,24 +98,28 @@ export default function GalleryPage() {
                             transition: "opacity 1.5s, visibility 0s linear " + (isDocentSheetOpen ? "1.5s" : "0s")
                         }}
                         className={clsx(
-                            "absolute w-max bottom-24 left-1/2 -translate-x-1/2 text-on-surface text-title-small text-center",
+                            "absolute w-max bottom-24 left-1/2 -translate-x-1/2 text-on-surface text-title-small", 
+                            "text-center pointer-events-auto",
                         )}
                     >
                         작품 하단의 플레이트를 클릭하면
                         {/* medium 이상부터 공백을 표시하고 줄바꿈 제거 */}
                         <span className="hidden medium:inline"> </span>
                         <span className="medium:hidden"><br /></span>
-                        작품 정보와 해설을 확인할 수 있습니다.
+                        작품 정보와 해설 본문을 확인할 수 있습니다.
                     </p>
 
                     <DocentRemote
-                        className="absolute bottom-4 left-1/2 -translate-x-1/2"
+                        className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-auto"
                         currentIndex={currentIndex}
                         totalCount={artworks.length}
                         audioUrl={currentArt.docentAudioUrl}
                         onPrev={handlePrev}
                         onNext={handleNext}
                     /> 
+
+                    {/* 조명 */}
+                    <span className="absolute inset-0 w-full h-full bg-[radial-gradient(circle_at_50%_0,#fff5d285_0%,#ffebbe36_30%,#0000_80%)]" />
                 </div>
             </main>
 
