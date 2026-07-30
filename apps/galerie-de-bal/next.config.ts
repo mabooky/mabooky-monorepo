@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
     /* config options here */
     output: 'export',
     basePath,
+    trailingSlash: true,
     env: {
         NEXT_PUBLIC_BASE_PATH: basePath,
     },
