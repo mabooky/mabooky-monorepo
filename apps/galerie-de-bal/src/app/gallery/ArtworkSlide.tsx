@@ -74,7 +74,7 @@ export function ArtworkSlide({ artwork, isDocentSheetOpen, onToggleDocent }: Art
                 style={{
                     // 기본 상태(0)
                     '--x0': 'calc(50dvw - 50%)',
-                    // DocentRemote 상하 여백: 16dp, 높이: 64dp
+                    // ArtworkNavigationToolbar 상하 여백: 16dp, 높이: 64dp
                     '--remote_h': 'calc(64 / 16 * 1rem)',
                     '--remote_mx': 'calc((16 + 16) / 16 * 1rem)',
                     '--y0': 'calc((100dvh - (var(--remote_h) + var(--remote_mx))) / 2 - 50%)',
@@ -134,7 +134,7 @@ export function ArtworkSlide({ artwork, isDocentSheetOpen, onToggleDocent }: Art
                         visibility: isDocentSheetOpen ? 'hidden' : 'visible',
                         transition: 'opacity 1.5s, visibility 0s linear ' + (isDocentSheetOpen ? '1.5s' : '0s')
                     }}
-                    className="shadow-elevation-level5"
+                    className="shadow-elevation-level2"
                     onClick={onToggleDocent}
                 />
             </div>

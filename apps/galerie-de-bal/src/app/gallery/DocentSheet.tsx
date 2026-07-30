@@ -4,12 +4,13 @@ import { useRef, useEffect } from "react";
 import { Divider, IconButton } from "@mabooky/md3";
 import clsx from "clsx";
 import { type Artwork } from "@/types/artwork";
+import { AudioControl } from "./AudioControl";
 
 /* -------------------------------------------------------------------------- */
 /*  DocentSheetBottom (Compact, Medium)                                       */
 /* -------------------------------------------------------------------------- */
 
-function DocentSheetBottom({ artwork, isVisible, onDismiss }: { artwork: Artwork; isVisible: boolean; onDismiss?: () => void }) {
+function DocentSheetBottom({ artwork, isVisible, onDismiss, duration, currentTime, isPlaying, onTogglePlay, onSeek }: { artwork: Artwork; isVisible: boolean; onDismiss?: () => void; duration: number; currentTime: number; isPlaying: boolean; onTogglePlay: () => void; onSeek: (time: number) => void; }) {
     const sheetRef = useRef<HTMLDivElement>(null);
     const dragStartY = useRef<number | null>(null);
     const isHandleDrag = useRef<boolean>(false);
@@ -112,7 +113,7 @@ function DocentSheetBottom({ artwork, isVisible, onDismiss }: { artwork: Artwork
                 isVisible ? 'translate-y-0' : 'translate-y-full',
                 "overflow-y-scroll bg-inverse-surface text-inverse-on-surface",
                 "scrollbar-track-transparent scrollbar-thumb-inverse-on-surface/30",
-                "transition-transform duration-1500",
+                "transition-transform duration-1500 shadow-elevation-level4",
             )}
         >
             <div className="sticky top-0 w-full py-5.5 flex justify-center bg-inverse-surface z-1 select-none">
@@ -137,6 +138,15 @@ function DocentSheetBottom({ artwork, isVisible, onDismiss }: { artwork: Artwork
 
                 <Divider className="mt-8" />
 
+                <AudioControl 
+                    duration={duration} 
+                    currentTime={currentTime} 
+                    isPlaying={isPlaying}
+                    onTogglePlay={onTogglePlay}
+                    onSeek={onSeek} 
+                    className="mt-8 w-full"
+                />
+
                 <p className="mt-8 text-body-large whitespace-pre-line text-justify">{artwork.docent}</p>
             </div>
         </div>
@@ -147,14 +157,14 @@ function DocentSheetBottom({ artwork, isVisible, onDismiss }: { artwork: Artwork
 /*  DocentSheetSide (Expanded, Large, Extra Large)                            */
 /* -------------------------------------------------------------------------- */
 
-function DocentSheetSide({ artwork, isVisible, onDismiss }: { artwork: Artwork; isVisible: boolean, onDismiss?: () => void }) {
+function DocentSheetSide({ artwork, isVisible, onDismiss, duration, currentTime, isPlaying, onTogglePlay, onSeek }: { artwork: Artwork; isVisible: boolean, onDismiss?: () => void; duration: number; currentTime: number; isPlaying: boolean; onTogglePlay: () => void; onSeek: (time: number) => void; }) {
     return (
         <div
             className={clsx(
                 "max-expanded:hidden absolute top-0 -right-100 w-100 h-full p-6",
                 "bg-inverse-surface text-inverse-on-surface overflow-x-hidden overflow-y-scroll",
                 "scrollbar-track-transparent scrollbar-thumb-inverse-on-surface/50 transition-[translate]", 
-                "duration-1500",
+                "duration-1500 shadow-elevation-level4",
                 isVisible ? "-translate-x-full" : "translate-x-0",
                 "flex flex-col"
             )}
@@ -182,6 +192,15 @@ function DocentSheetSide({ artwork, isVisible, onDismiss }: { artwork: Artwork; 
 
             <Divider className="mt-8" />
 
+            <AudioControl 
+                duration={duration} 
+                currentTime={currentTime} 
+                isPlaying={isPlaying}
+                onTogglePlay={onTogglePlay}
+                onSeek={onSeek} 
+                className="mt-8 w-full"
+            />
+
             <p className="mt-8 text-body-large whitespace-pre-line text-justify">{artwork.docent}</p>
         </div>
     );
@@ -195,13 +214,18 @@ export type DocentSheetProps = {
     artwork: Artwork;
     isVisible: boolean;
     onDismiss?: () => void;
+    duration: number;
+    currentTime: number;
+    isPlaying: boolean;
+    onTogglePlay: () => void;
+    onSeek: (time: number) => void;
 };
 
-export function DocentSheet({ artwork, isVisible, onDismiss }: DocentSheetProps) {
+export function DocentSheet({ artwork, isVisible, onDismiss, duration, currentTime, isPlaying, onTogglePlay, onSeek }: DocentSheetProps) {
     return (
         <>
-            <DocentSheetBottom artwork={artwork} isVisible={isVisible} onDismiss={onDismiss} />
-            <DocentSheetSide artwork={artwork} isVisible={isVisible} onDismiss={onDismiss} />
+            <DocentSheetBottom artwork={artwork} isVisible={isVisible} onDismiss={onDismiss} duration={duration} currentTime={currentTime} isPlaying={isPlaying} onTogglePlay={onTogglePlay} onSeek={onSeek} />
+            <DocentSheetSide artwork={artwork} isVisible={isVisible} onDismiss={onDismiss} duration={duration} currentTime={currentTime} isPlaying={isPlaying} onTogglePlay={onTogglePlay} onSeek={onSeek} />
         </>
     );
 }

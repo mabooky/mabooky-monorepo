@@ -5,13 +5,58 @@ import "./styles.css";
 import { Artwork } from "@/types/artwork";
 import { DocentSheet } from "./DocentSheet";
 import { ArtworkSlide } from "./ArtworkSlide";
-import { DocentRemote } from "./DocentRemote";
+import { ArtworkNavigationToolbar } from "./ArtworkNavigationToolbar";
 import clsx from "clsx";
 import { artworks } from "./artworks";
+import { useBgm } from "../BgmProvider";
 
 export default function GalleryPage() {
     const [currentArt, setCurrentArt] = useState<Artwork>(artworks[0]);
     const [isDocentSheetOpen, setIsDocentSheetOpen] = useState(false);
+    const [isDocentAudioPlaying, setIsDocentAudioPlaying] = useState(false);
+
+    const { duckVolume, restoreVolume } = useBgm();
+
+    const audioRef = useRef<HTMLAudioElement>(null);
+    const playbackTimesRef = useRef<Map<string, number>>(new Map());
+
+    const [duration, setDuration] = useState(0);
+    const [currentTime, setCurrentTime] = useState(0);
+
+    useEffect(() => {
+        setIsDocentAudioPlaying(false);
+        setDuration(0);
+        setCurrentTime(0);
+        if (audioRef.current) {
+            audioRef.current.pause();
+        }
+        restoreVolume();
+    }, [currentArt.docentAudioUrl, restoreVolume]);
+
+    useEffect(() => {
+        return () => restoreVolume();
+    }, [restoreVolume]);
+
+    const toggleAudio = () => {
+        if (!audioRef.current) return;
+        
+        if (isDocentAudioPlaying) {
+            audioRef.current.pause();
+            setIsDocentAudioPlaying(false);
+            restoreVolume();
+        } else {
+            audioRef.current.play().catch(console.error);
+            setIsDocentAudioPlaying(true);
+            duckVolume();
+        }
+    };
+    
+    const handleSeek = (time: number) => {
+        if (audioRef.current) {
+            audioRef.current.currentTime = time;
+            setCurrentTime(time);
+        }
+    };
 
     const currentIndex = artworks.findIndex(a => a.id === currentArt.id);
 
@@ -82,7 +127,7 @@ export default function GalleryPage() {
                         '--x2': 'calc((100dvw - var(--side-sheet_w)) / 2 - 50%)',
                     } as CSSProperties}
                     className={clsx(
-                        "absolute inset-0 z-30 w-full h-full transition-[translate] duration-1500 pointer-events-none", 
+                        "absolute inset-0 w-full h-full transition-[translate] duration-1500 pointer-events-none", 
                         // 기본 상태(0)
                         "translate-x-(--x0)",
                         // expanded 이상에서 사이드 시트가 열렸을 때의 상태(2)
@@ -109,11 +154,10 @@ export default function GalleryPage() {
                         작품 정보와 해설 본문을 확인할 수 있습니다.
                     </p>
 
-                    <DocentRemote
+                    <ArtworkNavigationToolbar
                         className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-auto"
                         currentIndex={currentIndex}
                         totalCount={artworks.length}
-                        audioUrl={currentArt.docentAudioUrl}
                         onPrev={handlePrev}
                         onNext={handleNext}
                     /> 
@@ -124,7 +168,43 @@ export default function GalleryPage() {
             </main>
 
             {/* Compact, Medium: Bottom Sheet / Expanded, Large, Extra Large: Side Sheet */}
-            <DocentSheet artwork={currentArt} isVisible={isDocentSheetOpen} onDismiss={() => setIsDocentSheetOpen(false)} />
+            <DocentSheet 
+                artwork={currentArt} 
+                isVisible={isDocentSheetOpen} 
+                onDismiss={() => setIsDocentSheetOpen(false)}
+                duration={duration}
+                currentTime={currentTime}
+                isPlaying={isDocentAudioPlaying}
+                onTogglePlay={toggleAudio}
+                onSeek={handleSeek}
+            />
+
+            <audio 
+                ref={audioRef} 
+                src={currentArt.docentAudioUrl} 
+                onDurationChange={() => {
+                    if (audioRef.current && !isNaN(audioRef.current.duration)) {
+                        setDuration(audioRef.current.duration);
+                    }
+                }}
+                onLoadedMetadata={() => {
+                    if (audioRef.current) {
+                        audioRef.current.currentTime = playbackTimesRef.current.get(currentArt.docentAudioUrl) || 0;
+                        setCurrentTime(audioRef.current.currentTime);
+                    }
+                }}
+                onTimeUpdate={() => {
+                    if (audioRef.current) {
+                        setCurrentTime(audioRef.current.currentTime);
+                        playbackTimesRef.current.set(currentArt.docentAudioUrl, audioRef.current.currentTime);
+                    }
+                }}
+                onEnded={() => {
+                    setIsDocentAudioPlaying(false);
+                    restoreVolume();
+                    playbackTimesRef.current.set(currentArt.docentAudioUrl, 0);
+                }} 
+            />
         </div>
     );
 }
