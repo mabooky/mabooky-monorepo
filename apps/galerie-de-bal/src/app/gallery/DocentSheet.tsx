@@ -120,7 +120,7 @@ function DocentSheetBottom({ artwork, isVisible, onDismiss, duration, currentTim
                 <span className="w-8 h-1 rounded-full bg-inverse-on-surface" />
             </div>
 
-            <div className="px-6 pb-24">
+            <div className="px-6 pb-6">
                 <h3 className="text-emphasized-headline-large break-keep">{artwork.title}</h3>
                 <p className="mt-2 text-body-large"><i>{artwork.titleEng}</i></p>
                 <p className="mt-4 text-title-small">
