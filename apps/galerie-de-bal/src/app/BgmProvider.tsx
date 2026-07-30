@@ -121,7 +121,7 @@ export function BgmProvider({ children }: { children: React.ReactNode }) {
     return (
         <BgmContext.Provider value={{ playWithFadeIn, duckVolume, restoreVolume }}>
             {children}
-            <audio ref={audioRef} loop preload="auto" src="/nocturne-op9-no2.mp3" />
+            <audio ref={audioRef} loop preload="auto" src={process.env.NEXT_PUBLIC_BASE_PATH + '/nocturne-op9-no2.mp3'} />
         </BgmContext.Provider>
     );
 }
