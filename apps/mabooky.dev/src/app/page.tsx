@@ -10,7 +10,7 @@ const contents = [
         description: "세계 최고의 현대 미술관 'Galerie de Bal'이 무가치한 픽셀과 알고리즘의 배설물에 가장 위대한 권위를 부여합니다.",
         tags: ['Gallery', 'Modern_Art'],
         date: '2026-07-31',
-        image: 'galerie-de-bal-screenshot.webp',
+        image: 'Gemini_Generated_Image_cxz3wgcxz3wgcxz3.webp',
     },
     {
         type: 'writing',
