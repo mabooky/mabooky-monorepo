@@ -4,6 +4,15 @@ import { ThemeSelector } from "./ThemeSelector";
 
 const contents = [
     {
+        type: 'work',
+        id: 'galerie-de-bal',
+        title: 'Galerie de Bal',
+        description: "세계 최고의 현대 미술관 'Galerie de Bal'이 무가치한 픽셀과 알고리즘의 배설물에 가장 위대한 권위를 부여합니다.",
+        tags: ['Gallery', 'Modern_Art'],
+        date: '2026-07-31',
+        image: 'galerie-de-bal-screenshot.webp',
+    },
+    {
         type: 'writing',
         id: 'implementing-material-design-3-color-system',
         title: "Material Design 3 색상 시스템 구현하기",
@@ -20,7 +29,7 @@ const contents = [
         tags: ['Game', 'Easter'],
         date: '2026-03-27',
         image: 'the-mary-run-screenshot.webp',
-    }
+    },
 ];
 
 export default function HomePage() {
@@ -102,7 +111,7 @@ export default function HomePage() {
                                     <h2 className="text-headline-medium font-bold">{content.title}</h2>
 
                                     {/* 컨텐츠 설명 */}
-                                    <p className="mt-2 text-body-medium">{content.description}</p>
+                                    <p className="mt-2 text-body-medium whitespace-pre-wrap">{content.description}</p>
 
                                     {/* 컨텐츠 태그 */}
                                     <p className="mt-2 text-label-large">

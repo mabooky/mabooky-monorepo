@@ -5,5 +5,6 @@ export default function WorkPage() {
 export function generateStaticParams() {
     return [
         { slug: "the-mary-run" },
+        { slug: "galerie-de-bal" },
     ];
 }
