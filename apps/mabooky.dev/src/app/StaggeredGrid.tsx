@@ -14,6 +14,10 @@ interface Position {
     width: number;
 }
 
+// md3 breakpoints
+const BREAKPOINT_EXPANDED = 840;
+const BREAKPOINT_EXTRA_LARGE = 1600;
+
 export function StaggeredGrid({ children, gapSp = 16, className = "" }: StaggeredGridProps) {
     const containerRef = useRef<HTMLUListElement>(null);
     const [positions, setPositions] = useState<Position[]>([]);
@@ -31,9 +35,9 @@ export function StaggeredGrid({ children, gapSp = 16, className = "" }: Staggere
         const gapDp = (gapSp / 16) * rootFontSize;
 
         let cols = 1;
-        if (window.matchMedia("(min-width: 1600px)").matches) {
+        if (window.matchMedia(`(min-width: ${BREAKPOINT_EXTRA_LARGE}px)`).matches) {
             cols = 3;
-        } else if (window.matchMedia("(min-width: 840px)").matches) {
+        } else if (window.matchMedia(`(min-width: ${BREAKPOINT_EXPANDED}px)`).matches) {
             cols = 2;
         }
 
