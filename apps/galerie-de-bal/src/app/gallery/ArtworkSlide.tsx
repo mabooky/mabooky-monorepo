@@ -103,7 +103,7 @@ export function ArtworkSlide({ artwork, isDocentSheetOpen, onToggleDocent }: Art
                 } as CSSProperties}
                 className={clsx(
                     "absolute top-0 left-0 origin-top expanded:origin-left",
-                    "flex flex-col justify-center items-center gap-2 transition-[translate,scale]",
+                    "flex flex-col justify-center items-center gap-2 transition-[translate,scale,opacity]",
                     "duration-1500 opacity-0",
                     // 기본 상태(0)
                     "translate-x-(--x0) translate-y-(--y0)",
