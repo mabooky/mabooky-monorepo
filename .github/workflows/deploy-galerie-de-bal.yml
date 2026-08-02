@@ -1,0 +1,43 @@
+name: Deploy galerie-de-bal
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/galerie-de-bal/**'
+      - 'packages/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 11 # 사용중인 pnpm 버전에 맞춰주세요
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24 # 사용중인 Node 버전에 맞춰주세요
+          cache: 'pnpm'
+
+      - name: 🛠️ Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🏗️ Build galerie-de-bal
+        run: pnpm --filter galerie-de-bal run build
+
+      - name: 🚀 Deploy to EC2 via rsync
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.EC2_HOST }}
+          REMOTE_USER: ubuntu
+          SOURCE: "apps/galerie-de-bal/out/"
+          TARGET: "/var/www/galerie-de-bal"
