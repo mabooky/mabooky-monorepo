@@ -48,7 +48,7 @@ export default function Home() {
                     onClick={handleEnter}
                 >
                     <div className="absolute w-[110px] h-[110px] border-2 border-dashed border-[rgba(255,215,100,0.4)] rounded-full pointer-events-none" />
-                    <span className="text-[rgba(255,215,100,0.9)] text-emphasized-headline-medium italic [text-shadow:1px_1px_3px_rgba(0,0,0,0.8)] z-10">입장</span>
+                    <span className="text-[rgba(255,215,100,0.9)] text-emphasized-headline-medium italic [text-shadow:1px_1px_3px_rgba(0,0,0,0.8)] z-10 select-none">입장</span>
                 </button>
             )}
 
@@ -56,8 +56,8 @@ export default function Home() {
                 className="absolute top-[15%] text-center text-[#a88d59] z-20 transition-opacity duration-1000 ease-in-out pointer-events-none"
                 style={{ opacity: isEntered ? 0 : 1, pointerEvents: isEntered ? 'none' : 'auto' }}
             >
-                <h1 className="font-serif text-[4.5rem] mb-4 tracking-[0.2em] uppercase [text-shadow:0_4px_20px_rgba(0,0,0,0.9)]">Galerie de Bal</h1>
-                <p className="font-sans text-[1.2rem] tracking-[0.1em] text-[#ddd] [text-shadow:0_2px_10px_rgba(0,0,0,0.8)]">세계 최고 권위의 현대 미술관</p>
+                <h1 className="font-serif text-[4.5rem] mb-4 tracking-[0.2em] uppercase [text-shadow:0_4px_20px_rgba(0,0,0,0.9)] select-none">Galerie de Bal</h1>
+                <p className="font-sans text-[1.2rem] tracking-[0.1em] text-[#ddd] [text-shadow:0_2px_10px_rgba(0,0,0,0.8)] select-none">세계 최고 권위의 현대 미술관</p>
             </div>
         </main>
     );
