@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 interface BgmContextType {
     playWithFadeIn: () => void;
@@ -19,6 +20,7 @@ export function useBgm() {
 }
 
 export function BgmProvider({ children }: { children: React.ReactNode }) {
+    const pathname = usePathname();
     const audioRef = useRef<HTMLAudioElement>(null);
     const fadeIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -104,10 +106,16 @@ export function BgmProvider({ children }: { children: React.ReactNode }) {
     };
 
     useEffect(() => {
-        playWithFadeIn();
+        console.log(pathname);
+        // 사용자가 gallery 경로로 바로 접속했을 경우를 대비하여 배경음악 자동 재생 처리
+        if (pathname === "/gallery/") {
+            // 자동 재생이 허용된 상황일 수도 있으므로 재생 시도
+            // 거부되더라도 playWithFadeIn 내부의 catch 블록에서 안전하게 처리됨
+            playWithFadeIn();
 
-        document.addEventListener("pointerdown", handleUserGesture, { passive: true });
-        document.addEventListener("keydown", handleUserGesture, { passive: true });
+            document.addEventListener("pointerdown", handleUserGesture, { passive: true });
+            document.addEventListener("keydown", handleUserGesture, { passive: true });
+        }
 
         return () => {
             if (fadeIntervalRef.current) {
@@ -116,7 +124,7 @@ export function BgmProvider({ children }: { children: React.ReactNode }) {
             document.removeEventListener("pointerdown", handleUserGesture);
             document.removeEventListener("keydown", handleUserGesture);
         };
-    }, []);
+    }, [pathname]);
 
     return (
         <BgmContext.Provider value={{ playWithFadeIn, duckVolume, restoreVolume }}>
