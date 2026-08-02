@@ -20,6 +20,9 @@ export function ArtworkSlide({ artwork, isDocentSheetOpen, onToggleDocent }: Art
     const handleResize = useCallback(() => {
         if (!slideRef.current || !containerRef.current || !imgRef.current) return;
 
+        // 아직 이미지가 로드되지 않은 경우 다음 호출 때 계산
+        if (!imgRef.current.complete) return;
+
         const imgMaxW = slideRef.current.clientWidth * 0.8; // 80dvw
         const imgMaxH = slideRef.current.clientHeight * 0.5; // 50dvh
 
