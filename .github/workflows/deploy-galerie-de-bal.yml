@@ -14,15 +14,15 @@ jobs:
 
     steps:
       - name: 📥 Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 📦 Setup pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
         with:
           version: 11 # 사용중인 pnpm 버전에 맞춰주세요
 
       - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 24 # 사용중인 Node 버전에 맞춰주세요
           cache: 'pnpm'
