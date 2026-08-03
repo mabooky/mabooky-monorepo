@@ -77,10 +77,10 @@ export function ArtworkSlide({ artwork, isDocentSheetOpen, onToggleDocent }: Art
                 style={{
                     // 기본 상태(0)
                     '--x0': 'calc(50dvw - 50%)',
-                    // ArtworkNavigationToolbar 상하 여백: 16dp, 높이: 64dp
-                    '--remote_h': 'calc(64 / 16 * 1rem)',
-                    '--remote_mx': 'calc((16 + 16) / 16 * 1rem)',
-                    '--y0': 'calc((100dvh - (var(--remote_h) + var(--remote_mx))) / 2 - 50%)',
+                    // ArtworkNavigationToolbar 높이: 64dp, 하단 여백: 16dp
+                    '--toolbar_h': 'calc(64 / 16 * 1rem)',
+                    '--toolbar_mb': 'calc(16 / 16 * 1rem)',
+                    '--y0': 'calc((100dvh - (var(--toolbar_h) + var(--toolbar_mb))) / 2 - 50%)',
 
                     // medium 이하에서 바텀 시트가 열렸을 때의 상태(1)
                     // --img_h0 변수가 JS 단에서 주입되어 활용 가능
