@@ -129,7 +129,12 @@ export function BgmProvider({ children }: { children: React.ReactNode }) {
     return (
         <BgmContext.Provider value={{ playWithFadeIn, duckVolume, restoreVolume }}>
             {children}
-            <audio ref={audioRef} loop preload="auto" src={process.env.NEXT_PUBLIC_BASE_PATH + '/nocturne-op9-no2.mp3'} />
+            <audio 
+                ref={audioRef} 
+                loop 
+                preload="auto" 
+                src="https://d3m0nnwzf3owx5.cloudfront.net/apps/galerie-de-bal/production/audios/nocturne-op9-no2.webm" 
+            />
         </BgmContext.Provider>
     );
 }

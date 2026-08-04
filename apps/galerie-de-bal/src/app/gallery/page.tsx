@@ -181,7 +181,8 @@ export default function GalleryPage() {
 
             <audio 
                 ref={audioRef} 
-                src={currentArt.docentAudioUrl} 
+                src={currentArt.docentAudioUrl}
+                preload="metadata"
                 onDurationChange={() => {
                     if (audioRef.current && !isNaN(audioRef.current.duration)) {
                         setDuration(audioRef.current.duration);
