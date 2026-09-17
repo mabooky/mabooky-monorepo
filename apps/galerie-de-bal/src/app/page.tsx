@@ -23,7 +23,7 @@ export default function Home() {
         playWithFadeIn();
 
         setTimeout(() => {
-            router.push("/gallery");
+            router.push("/gallery/");
         }, 3000);
     };
 
