@@ -60,14 +60,12 @@ export default function HomePage() {
                 </h1>
 
                 <StaggeredGrid className="my-16" gapSp={16}>
-                    {contents.map((content) => (
-                        <article key={content.id} className="w-full">
-                            <Link
-                                aria-label={content.title}
-                                href={`/${content.type}s/${content.id}`}
-                                className="md3-state-source relative w-full rounded-xl
-                                    flex flex-col bg-surface-container-high text-on-surface">
-
+                    {contents.map((content) => {
+                        const isWork = content.type === 'work';
+                        const href = isWork ? `/works/${content.id}/` : `/${content.type}s/${content.id}`;
+                        const cardClassName = "md3-state-source relative w-full rounded-xl flex flex-col bg-surface-container-high text-on-surface";
+                        const cardBody = (
+                            <>
                                 {/* 컨텐츠 이미지 */}
                                 {content.image && <img
                                     className="w-full h-48 object-cover rounded-t-xl"
@@ -95,11 +93,29 @@ export default function HomePage() {
                                 </div>
 
                                 <StateLayer className="rounded-xl" ripple />
+                            </>
+                        );
 
-                            </Link>
-
-                        </article>
-                    ))}
+                        return (
+                            <article key={content.id} className="w-full">
+                                {isWork ? (
+                                    <a
+                                        aria-label={content.title}
+                                        href={href}
+                                        className={cardClassName}>
+                                        {cardBody}
+                                    </a>
+                                ) : (
+                                    <Link
+                                        aria-label={content.title}
+                                        href={href}
+                                        className={cardClassName}>
+                                        {cardBody}
+                                    </Link>
+                                )}
+                            </article>
+                        );
+                    })}
 
                 </StaggeredGrid>
 
