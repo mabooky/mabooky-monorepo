@@ -44,6 +44,14 @@ else
   exit 1
 fi
 
+log_step "4. Generating Cloudflare Pages _redirects rules..."
+cat << 'EOF' > out/_redirects
+/works/galerie-de-bal /works/galerie-de-bal/index.html 200
+/works/galerie-de-bal/gallery /works/galerie-de-bal/gallery/index.html 200
+/works/the-mary-run /works/the-mary-run/index.html 200
+EOF
+echo "✔ Cloudflare _redirects file generated"
+
 echo -e "\n${GREEN}====================================================${NC}"
 echo -e "${GREEN}✔ Deployment assembly completed in apps/mabooky.dev/out!${NC}"
 echo -e "${GREEN}====================================================${NC}\n"
